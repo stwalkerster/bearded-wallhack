@@ -100,9 +100,9 @@ namespace BeardedWallhackCSharp
         {
             this._mazePanel.move(e.KeyCode);
 
-            if (this._realMaze.currentBlock == this._realMaze.exitBlock)
+            if (this._realMaze.CurrentBlock == this._realMaze.ExitBlock)
             {
-                this._realMaze.solve();
+                this._realMaze.Solve();
             }
         }
 
@@ -275,7 +275,7 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            this._realMaze.solve();
+            this._realMaze.Solve();
         }
 
         /// <summary>

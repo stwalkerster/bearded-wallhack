@@ -28,7 +28,7 @@ namespace BeardedWallhackCSharp
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Maze"/> class.
+        /// Initialises a new instance of the <see cref="Maze"/> class.
         /// </summary>
         /// <param name="width">
         /// The width.
@@ -43,7 +43,7 @@ namespace BeardedWallhackCSharp
             this.Height = width;
             this.Width = height;
 
-            this.generate();
+            this.Generate();
         }
 
         #endregion
@@ -58,22 +58,22 @@ namespace BeardedWallhackCSharp
             /// <summary>
             /// The left.
             /// </summary>
-            LEFT = 3, 
+            Left = 3, 
 
             /// <summary>
             /// The right.
             /// </summary>
-            RIGHT = 1, 
+            Right = 1, 
 
             /// <summary>
             /// The down.
             /// </summary>
-            DOWN = 2, 
+            Down = 2, 
 
             /// <summary>
             /// The up.
             /// </summary>
-            UP = 0, 
+            Up = 0, 
         }
 
         #endregion
@@ -93,17 +93,17 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// Gets the current block.
         /// </summary>
-        public Block currentBlock { get; private set; }
+        public Block CurrentBlock { get; private set; }
 
         /// <summary>
         /// Gets or sets the exit block.
         /// </summary>
-        public Block exitBlock { get; set; }
+        public Block ExitBlock { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether is solved.
         /// </summary>
-        public bool isSolved { get; private set; }
+        public bool IsSolved { get; private set; }
 
         #endregion
 
@@ -137,10 +137,10 @@ namespace BeardedWallhackCSharp
         /// The export maze.
         /// </summary>
         /// <returns>
-        /// The <see cref="Block[,]"/>.
+        /// The <see cref="Block"/>.
         /// </returns>
         [Obsolete]
-        public Block[,] exportMaze()
+        public Block[,] ExportMaze()
         {
             return this.mazeBlocks;
         }
@@ -152,7 +152,7 @@ namespace BeardedWallhackCSharp
         /// The maze.
         /// </param>
         [Obsolete]
-        public void importMaze(Block[,] maze)
+        public void ImportMaze(Block[,] maze)
         {
             this.mazeBlocks = maze;
         }
@@ -163,49 +163,47 @@ namespace BeardedWallhackCSharp
         /// <param name="direction">
         /// The direction.
         /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// </exception>
-        public void move(Direction direction)
+        public void Move(Direction direction)
         {
             switch (direction)
             {
-                case Direction.LEFT:
-                    if (this.currentBlock.ExitLeft)
+                case Direction.Left:
+                    if (this.CurrentBlock.ExitLeft)
                     {
-                        this.currentBlock.CurrentState = Block.State.Visited;
-                        Block next = this.currentBlock.WallLeft.getOpposite(this.currentBlock);
+                        this.CurrentBlock.CurrentState = Block.State.Visited;
+                        Block next = this.CurrentBlock.WallLeft.getOpposite(this.CurrentBlock);
                         next.CurrentState = Block.State.Current;
-                        this.currentBlock = next;
+                        this.CurrentBlock = next;
                     }
 
                     break;
-                case Direction.RIGHT:
-                    if (this.currentBlock.ExitRight)
+                case Direction.Right:
+                    if (this.CurrentBlock.ExitRight)
                     {
-                        this.currentBlock.CurrentState = Block.State.Visited;
-                        Block next = this.currentBlock.WallRight.getOpposite(this.currentBlock);
+                        this.CurrentBlock.CurrentState = Block.State.Visited;
+                        Block next = this.CurrentBlock.WallRight.getOpposite(this.CurrentBlock);
                         next.CurrentState = Block.State.Current;
-                        this.currentBlock = next;
+                        this.CurrentBlock = next;
                     }
 
                     break;
-                case Direction.DOWN:
-                    if (this.currentBlock.ExitBottom)
+                case Direction.Down:
+                    if (this.CurrentBlock.ExitBottom)
                     {
-                        this.currentBlock.CurrentState = Block.State.Visited;
-                        Block next = this.currentBlock.WallBottom.getOpposite(this.currentBlock);
+                        this.CurrentBlock.CurrentState = Block.State.Visited;
+                        Block next = this.CurrentBlock.WallBottom.getOpposite(this.CurrentBlock);
                         next.CurrentState = Block.State.Current;
-                        this.currentBlock = next;
+                        this.CurrentBlock = next;
                     }
 
                     break;
-                case Direction.UP:
-                    if (this.currentBlock.ExitTop)
+                case Direction.Up:
+                    if (this.CurrentBlock.ExitTop)
                     {
-                        this.currentBlock.CurrentState = Block.State.Visited;
-                        Block next = this.currentBlock.WallTop.getOpposite(this.currentBlock);
+                        this.CurrentBlock.CurrentState = Block.State.Visited;
+                        Block next = this.CurrentBlock.WallTop.getOpposite(this.CurrentBlock);
                         next.CurrentState = Block.State.Current;
-                        this.currentBlock = next;
+                        this.CurrentBlock = next;
                     }
 
                     break;
@@ -219,11 +217,11 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The solve.
         /// </summary>
-        public void solve()
+        public void Solve()
         {
             bool changed;
 
-            this.isSolved = true;
+            this.IsSolved = true;
 
             do
             {
@@ -273,7 +271,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The generate.
         /// </summary>
-        private void generate()
+        private void Generate()
         {
             this.mazeBlocks = new Block[this.Width, this.Height];
 
@@ -372,12 +370,12 @@ namespace BeardedWallhackCSharp
                 walls.RemoveAt(wallId);
             }
 
-            this.exitBlock = this.mazeBlocks[this.Width - 1, this.Height - 1];
-            this.exitBlock.IsExit = true;
-            this.exitBlock.CurrentState = Block.State.Exit;
+            this.ExitBlock = this.mazeBlocks[this.Width - 1, this.Height - 1];
+            this.ExitBlock.IsExit = true;
+            this.ExitBlock.CurrentState = Block.State.Exit;
 
-            this.currentBlock = startBlock;
-            this.currentBlock.CurrentState = Block.State.Current;
+            this.CurrentBlock = startBlock;
+            this.CurrentBlock.CurrentState = Block.State.Current;
         }
 
         #endregion

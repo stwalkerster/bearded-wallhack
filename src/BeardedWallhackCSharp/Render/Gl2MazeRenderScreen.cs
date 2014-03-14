@@ -125,16 +125,16 @@ namespace BeardedWallhackCSharp.Render
             switch (direction)
             {
                 case Keys.W:
-                    this.maze.move(Maze.Direction.UP);
+                    this.maze.Move(Maze.Direction.Up);
                     break;
                 case Keys.A:
-                    this.maze.move(Maze.Direction.LEFT);
+                    this.maze.Move(Maze.Direction.Left);
                     break;
                 case Keys.S:
-                    this.maze.move(Maze.Direction.DOWN);
+                    this.maze.Move(Maze.Direction.Down);
                     break;
                 case Keys.D:
-                    this.maze.move(Maze.Direction.RIGHT);
+                    this.maze.Move(Maze.Direction.Right);
                     break;
             }
         }

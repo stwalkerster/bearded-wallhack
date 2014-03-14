@@ -373,7 +373,7 @@ namespace BeardedWallhackCSharp.Render
                     doorState = currentCell.CurrentState;
                 }
 
-                if (!this.maze.isSolved)
+                if (!this.maze.IsSolved)
                 {
                     if (currentCell.CurrentState == Block.State.Exit
                         && w.getOpposite(currentCell).CurrentState == Block.State.Current)
