@@ -3,11 +3,13 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace BeebMaze.Render
+namespace BeardedWallhackCSharp.Render
 {
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+
+    using BeardedWallhackCSharp;
 
     using Tao.OpenGl;
 

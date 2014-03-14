@@ -64,8 +64,10 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Maze.cs" />
+    <Compile Include="MazePosition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderContext.cs" />
     <Compile Include="Render\Gl2MazeRenderScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>

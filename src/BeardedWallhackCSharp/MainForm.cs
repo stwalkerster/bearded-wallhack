@@ -4,14 +4,15 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace BeebMaze
+namespace BeardedWallhackCSharp
 {
     using System;
     using System.Threading;
     using System.Windows.Forms;
 
-    using BeebMaze.Properties;
-    using BeebMaze.Render;
+    using BeardedWallhackCSharp.Render;
+
+    using BeardedWallhackCSharp.Properties;
 
     /// <summary>
     /// The main form.

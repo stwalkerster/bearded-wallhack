@@ -4,12 +4,12 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace BeebMaze
+namespace BeardedWallhackCSharp
 {
     using System;
     using System.Collections.Generic;
 
-    using BeebMaze.Properties;
+    using BeardedWallhackCSharp.Properties;
 
     /// <summary>
     /// The maze.

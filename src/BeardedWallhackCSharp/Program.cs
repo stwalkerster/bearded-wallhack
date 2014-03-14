@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace BeebMaze
+namespace BeardedWallhackCSharp
 {
     using System;
     using System.Windows.Forms;

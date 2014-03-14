@@ -3,13 +3,15 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace BeebMaze.Render
+namespace BeardedWallhackCSharp.Render
 {
     using System;
     using System.Drawing;
     using System.Windows.Forms;
 
-    using BeebMaze.Properties;
+    using BeardedWallhackCSharp;
+
+    using BeardedWallhackCSharp.Properties;
 
     /// <summary>
     ///     The maze render screen.

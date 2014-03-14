@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BeebMaze.Properties
+namespace BeardedWallhackCSharp.Properties
 {
 
 

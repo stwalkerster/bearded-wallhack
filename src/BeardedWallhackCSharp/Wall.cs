@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace BeebMaze
+namespace BeardedWallhackCSharp
 {
     /// <summary>
     /// The wall.

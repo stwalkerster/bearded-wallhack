@@ -3,7 +3,7 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace BeebMaze
+namespace BeardedWallhackCSharp
 {
     /// <summary>
     ///     The block.
