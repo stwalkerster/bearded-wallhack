@@ -199,8 +199,6 @@ namespace BeardedWallhackCSharp.Render
                 {
                     Block cell = this.maze[x, y];
 
-                    
-
                     if (!cell.ExitTop)
                     {
                         this.setColour(this.getColour(Settings.Default.ColorWalls));

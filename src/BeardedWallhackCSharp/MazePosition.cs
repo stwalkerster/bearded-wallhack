@@ -3,25 +3,43 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace BeardedWallhackCSharp
 {
     /// <summary>
-    /// The maze position.
+    ///     The maze position.
     /// </summary>
     public class MazePosition
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="MazePosition"/> class.
+        /// </summary>
+        /// <param name="block">
+        /// The block.
+        /// </param>
+        /// <param name="direction">
+        /// The direction.
+        /// </param>
+        public MazePosition(Block block, Maze.Direction direction)
+        {
+            this.Block = block;
+            this.Direction = direction;
+        }
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
-        /// Gets the block.
+        ///     Gets the block.
         /// </summary>
         public Block Block { get; private set; }
 
         /// <summary>
-        /// Gets or sets the direction.
+        ///     Gets the direction.
         /// </summary>
-        public Maze.Direction Direction { get; set; }
+        public Maze.Direction Direction { get; private set; }
 
         #endregion
     }

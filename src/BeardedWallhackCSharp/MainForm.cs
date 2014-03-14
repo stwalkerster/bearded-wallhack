@@ -10,8 +10,6 @@ namespace BeardedWallhackCSharp
     using System.Threading;
     using System.Windows.Forms;
 
-    using BeardedWallhackCSharp.Render;
-
     using BeardedWallhackCSharp.Properties;
 
     /// <summary>
@@ -24,26 +22,22 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The _maze lock.
         /// </summary>
-        private readonly object _mazeLock = new object();
-
-        // private Block _exitBlock;
-        // private int _height;
-        // private Block[,] _maze;
-
-        /// <summary>
-        /// The _maze panel.
-        /// </summary>
-        private MazeRenderScreen _mazePanel;
+        private readonly object mazeLock = new object();
 
         /// <summary>
         /// The _real maze.
         /// </summary>
-        private Maze _realMaze;
+        private Maze realMaze;
+
+        /// <summary>
+        /// The maze renderer.
+        /// </summary>
+        private IMazeRenderer mazeRenderer;
 
         /// <summary>
         /// The _regeneration thread.
         /// </summary>
-        private Thread _regenerationThread;
+        private Thread regenerationThread;
 
         #endregion
 
@@ -51,11 +45,12 @@ namespace BeardedWallhackCSharp
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainForm"/> class.
+        /// Initialises a new instance of the <see cref="MainForm"/> class.
         /// </summary>
         public MainForm()
         {
             this.InitializeComponent();
+            this.mazeRenderer = new MazeRenderer(null, null);
         }
 
         #endregion
@@ -81,7 +76,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The generation complete.
         /// </summary>
-        private event EventHandler generationComplete;
+        private event EventHandler GenerationComplete;
 
         #endregion
 
@@ -96,33 +91,16 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        public void form1KeyDown(object sender, PreviewKeyDownEventArgs e)
+        public void Form1KeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            this._mazePanel.move(e.KeyCode);
-
-            if (this._realMaze.CurrentBlock == this._realMaze.ExitBlock)
-            {
-                this._realMaze.Solve();
-            }
         }
 
         /// <summary>
         /// The perform render.
         /// </summary>
-        public void performRender()
+        public void PerformRender()
         {
-            if (this._mazePanel == null || (this._mazePanel.GetType() != typeof(Gl2MazeRenderScreen)))
-            {
-                this.panel1.Controls.Clear();
-                this._mazePanel = MazeRenderScreen.Create();
-                this._mazePanel.Dock = DockStyle.Fill;
-                this.panel1.Controls.Add(this._mazePanel);
-            }
-
-            lock (this._mazeLock)
-            {
-                this._mazePanel.render(this._realMaze);
-            }
+            this.glControl1.Invalidate(); 
         }
 
         #endregion
@@ -138,9 +116,9 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void form1FormClosing(object sender, FormClosingEventArgs e)
+        private void Form1FormClosing(object sender, FormClosingEventArgs e)
         {
-            this._regenerationThread.Abort();
+            this.regenerationThread.Abort();
         }
 
         /// <summary>
@@ -152,18 +130,20 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void form1GenerationComplete(object sender, EventArgs e)
+        private void Form1GenerationComplete(object sender, EventArgs e)
         {
             if (this.InvokeRequired)
             {
-                EventHandler eh = this.form1GenerationComplete;
+                EventHandler eh = this.Form1GenerationComplete;
                 this.Invoke(eh, sender, e);
                 return;
             }
 
-            this.panel1.Controls.Add(this._mazePanel);
-
             this.panel1.Visible = true;
+
+            this.mazeRenderer.Maze = this.realMaze;
+            this.mazeRenderer.Position = new MazePosition(this.realMaze[0, 0], Maze.Direction.Down);
+            this.glControl1.Invalidate();
         }
 
         /// <summary>
@@ -175,10 +155,12 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void form1Load(object sender, EventArgs e)
+        private void Form1Load(object sender, EventArgs e)
         {
-            this.generationComplete += this.form1GenerationComplete;
-            this.generateMaze(Settings.Default.MazeSize);
+            this.GenerationComplete += this.Form1GenerationComplete;
+            this.GenerateMaze(Settings.Default.MazeSize);
+
+            this.glControl1.MakeCurrent();
         }
 
         /// <summary>
@@ -190,9 +172,9 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void form1Resize(object sender, EventArgs e)
+        private void Form1Resize(object sender, EventArgs e)
         {
-            this.performRender();
+            this.glControl1.Invalidate();
         }
 
         /// <summary>
@@ -201,23 +183,23 @@ namespace BeardedWallhackCSharp
         /// <param name="resolution">
         /// The resolution.
         /// </param>
-        private void generateMaze(int resolution)
+        private void GenerateMaze(int resolution)
         {
             this.panel1.Visible = false;
             this.panel1.Controls.Clear();
 
-            this.updateData("Initialising thread...", -1);
+            this.UpdateData("Initialising thread...", -1);
 
             Thread.Sleep(100);
 
             var tsd = new ThreadStartData
                           {
-                              height = this.panel1.Width / resolution, 
-                              width = this.panel1.Height / resolution, 
+                              Height = this.panel1.Width / resolution, 
+                              Width = this.panel1.Height / resolution, 
                           };
 
-            this._regenerationThread = new Thread(this.regenerationThread_DoWork) { Priority = ThreadPriority.Lowest };
-            this._regenerationThread.Start(tsd);
+            this.regenerationThread = new Thread(this.RegenerationThreadDoWork) { Priority = ThreadPriority.Lowest };
+            this.regenerationThread.Start(tsd);
         }
 
         /// <summary>
@@ -226,28 +208,28 @@ namespace BeardedWallhackCSharp
         /// <param name="startData">
         /// The start data.
         /// </param>
-        private void regenerationThread_DoWork(object startData)
+        private void RegenerationThreadDoWork(object startData)
         {
             var data = (ThreadStartData)startData;
 
-            int width = data.width;
-            int height = data.height;
+            int width = data.Width;
+            int height = data.Height;
 
-            this.updateData("Generating maze", 0);
+            this.UpdateData("Generating maze", 0);
 
-            var realMaze = new Maze(width, height);
+            var maze = new Maze(width, height);
 
-            this.updateData("Rendering maze", 0);
-            lock (this._mazeLock)
+            this.UpdateData("Rendering maze", 0);
+            lock (this.mazeLock)
             {
-                this._realMaze = realMaze;
+                this.realMaze = maze;
             }
 
-            this.Invoke(new Action(this.performRender));
+            this.Invoke(new Action(this.PerformRender));
 
-            this.updateData("Drawing completed maze", -1);
+            this.UpdateData("Drawing completed maze", -1);
 
-            this.generationComplete(this, new EventArgs());
+            this.GenerationComplete(this, new EventArgs());
         }
 
         /// <summary>
@@ -259,9 +241,9 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void ToolStripButton1Click(object sender, EventArgs e)
         {
-            this.generateMaze(Settings.Default.MazeSize);
+            this.GenerateMaze(Settings.Default.MazeSize);
         }
 
         /// <summary>
@@ -273,9 +255,9 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private void ToolStripButton3Click(object sender, EventArgs e)
         {
-            this._realMaze.Solve();
+           
         }
 
         /// <summary>
@@ -287,12 +269,12 @@ namespace BeardedWallhackCSharp
         /// <param name="percent">
         /// The percent.
         /// </param>
-        private void updateData(string message = "", int percent = -2)
+        private void UpdateData(string message = "", int percent = -2)
         {
             if (this.InvokeRequired)
             {
                 // Thread.Sleep(10);
-                UpdateDataDelegate udd = this.updateData;
+                UpdateDataDelegate udd = this.UpdateData;
                 this.Invoke(udd, message, percent);
                 return;
             }
@@ -324,16 +306,32 @@ namespace BeardedWallhackCSharp
             #region Fields
 
             /// <summary>
-            /// The height.
+            /// The Height.
             /// </summary>
-            public int height;
+            public int Height;
 
             /// <summary>
-            /// The width.
+            /// The Width.
             /// </summary>
-            public int width;
+            public int Width;
 
             #endregion
+        }
+
+        /// <summary>
+        /// Repaint the OpenGL control
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void GlControl1Paint(object sender, PaintEventArgs e)
+        {
+            this.mazeRenderer.Render();
+
+            glControl1.SwapBuffers();
         }
     }
 }

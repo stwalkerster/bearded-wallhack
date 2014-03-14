@@ -1,26 +1,36 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RenderContext.cs" company="Simon Walker">
+// <copyright file="IMazeRenderer.cs" company="Simon Walker">
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace BeardedWallhackCSharp
 {
     /// <summary>
-    ///     The render context.
+    /// The MazeRenderer interface.
     /// </summary>
-    public class RenderContext
+    public interface IMazeRenderer
     {
         #region Public Properties
 
         /// <summary>
-        /// Gets the maze.
+        ///     Gets or sets the maze.
         /// </summary>
-        public Maze Maze { get; private set; }
+        Maze Maze { get; set; }
 
         /// <summary>
-        /// Gets the position.
+        ///     Gets or sets the position.
         /// </summary>
-        public MazePosition Position { get; private set; }
+        MazePosition Position { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        ///     The render.
+        /// </summary>
+        void Render();
 
         #endregion
     }

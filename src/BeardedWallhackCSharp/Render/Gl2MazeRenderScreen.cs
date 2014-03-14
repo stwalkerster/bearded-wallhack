@@ -32,7 +32,7 @@ namespace BeardedWallhackCSharp.Render
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
 
             this.simpleOpenGlControl1.Paint += this.simpleOpenGlControl1_Paint;
-            this.simpleOpenGlControl1.PreviewKeyDown += Program.app.form1KeyDown;
+            this.simpleOpenGlControl1.PreviewKeyDown += Program.App.Form1KeyDown;
         }
 
         /// <summary>

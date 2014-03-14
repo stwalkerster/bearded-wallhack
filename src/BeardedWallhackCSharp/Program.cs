@@ -19,7 +19,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The app.
         /// </summary>
-        public static MainForm app;
+        public static MainForm App;
 
         #endregion
 
@@ -34,8 +34,8 @@ namespace BeardedWallhackCSharp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            app = new MainForm();
-            Application.Run(app);
+            App = new MainForm();
+            Application.Run(App);
         }
 
         #endregion
