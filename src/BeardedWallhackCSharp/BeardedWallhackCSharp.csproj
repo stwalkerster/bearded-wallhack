@@ -36,10 +36,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\OpenTK\1.1\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OpenTK\1.1\OpenTK.Compatibility.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\OpenTK\1.1\OpenTK.GLControl.dll</HintPath>
@@ -57,6 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
+    <Compile Include="GlTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GlTest.Designer.cs">
+      <DependentUpon>GlTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="IMazeRenderer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -70,6 +72,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wall.cs" />
+    <EmbeddedResource Include="GlTest.resx">
+      <DependentUpon>GlTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

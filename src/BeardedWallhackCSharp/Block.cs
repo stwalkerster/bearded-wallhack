@@ -52,27 +52,6 @@ namespace BeardedWallhackCSharp
         #region Public Properties
 
         /// <summary>
-        ///     Gets or sets the current state.
-        /// </summary>
-        public State CurrentState
-        {
-            get
-            {
-                return this.currentState;
-            }
-
-            set
-            {
-                if (value == State.Current)
-                {
-                    this.Hidden = false;
-                }
-
-                this.currentState = this.IsExit ? State.Exit : value;
-            }
-        }
-
-        /// <summary>
         ///     Gets a value indicating whether exit bottom.
         /// </summary>
         public bool ExitBottom
@@ -137,11 +116,6 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether hidden.
-        /// </summary>
-        public bool Hidden { get; set; }
-
-        /// <summary>
         ///     Gets or sets a value indicating whether in maze.
         /// </summary>
         public bool InMaze { get; set; }
@@ -193,11 +167,6 @@ namespace BeardedWallhackCSharp
         /// </returns>
         public int CountEffectiveWalls()
         {
-            if (this.CurrentState == State.Exit)
-            {
-                return 0;
-            }
-
             int count = 0;
             if (this.WallTop != null)
             {

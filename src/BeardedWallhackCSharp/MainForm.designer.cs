@@ -56,7 +56,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(896, 463);
             this.panel1.TabIndex = 0;
-            this.panel1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Form1KeyDown);
+            this.panel1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.FormOnKeyDown);
             // 
             // glControl1
             // 
@@ -144,7 +144,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(51, 22);
             this.toolStripButton1.Text = "&New";
-            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1Click);
+            this.toolStripButton1.Click += new System.EventHandler(this.NewButtonClick);
             // 
             // toolStripButton3
             // 
@@ -153,7 +153,7 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(55, 22);
             this.toolStripButton3.Text = "&Solve";
-            this.toolStripButton3.Click += new System.EventHandler(this.ToolStripButton3Click);
+            this.toolStripButton3.Click += new System.EventHandler(this.SolveButtonClick);
             // 
             // MainForm
             // 
@@ -162,11 +162,11 @@
             this.ClientSize = new System.Drawing.Size(896, 488);
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "MainForm";
-            this.Text = "BeebMaze for Windows";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1FormClosing);
-            this.Load += new System.EventHandler(this.Form1Load);
-            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Form1KeyDown);
-            this.Resize += new System.EventHandler(this.Form1Resize);
+            this.Text = "Bearded Wallhack";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormOnFormClosing);
+            this.Load += new System.EventHandler(this.FormOnLoad);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.FormOnKeyDown);
+            this.Resize += new System.EventHandler(this.FormOnResize);
             this.panel1.ResumeLayout(false);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);

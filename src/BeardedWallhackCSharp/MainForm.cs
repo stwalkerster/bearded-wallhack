@@ -3,39 +3,41 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace BeardedWallhackCSharp
 {
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
 
     using BeardedWallhackCSharp.Properties;
 
+    using OpenTK.Graphics.OpenGL;
+
     /// <summary>
-    /// The main form.
+    ///     The main form.
     /// </summary>
     public partial class MainForm : Form
     {
         #region Fields
 
         /// <summary>
-        /// The _maze lock.
+        ///     The _maze lock.
         /// </summary>
         private readonly object mazeLock = new object();
 
         /// <summary>
-        /// The _real maze.
+        ///     The maze renderer.
+        /// </summary>
+        private readonly IMazeRenderer mazeRenderer;
+
+        /// <summary>
+        ///     The _real maze.
         /// </summary>
         private Maze realMaze;
 
         /// <summary>
-        /// The maze renderer.
-        /// </summary>
-        private IMazeRenderer mazeRenderer;
-
-        /// <summary>
-        /// The _regeneration thread.
+        ///     The _regeneration thread.
         /// </summary>
         private Thread regenerationThread;
 
@@ -45,7 +47,7 @@ namespace BeardedWallhackCSharp
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="MainForm"/> class.
+        ///     Initialises a new instance of the <see cref="MainForm" /> class.
         /// </summary>
         public MainForm()
         {
@@ -58,13 +60,13 @@ namespace BeardedWallhackCSharp
         #region Delegates
 
         /// <summary>
-        /// The update data delegate.
+        ///     The update data delegate.
         /// </summary>
         /// <param name="message">
-        /// The message.
+        ///     The message.
         /// </param>
         /// <param name="percent">
-        /// The percent.
+        ///     The percentComplete.
         /// </param>
         private delegate void UpdateDataDelegate(string message, int percent);
 
@@ -74,7 +76,7 @@ namespace BeardedWallhackCSharp
         #region Events
 
         /// <summary>
-        /// The generation complete.
+        ///     The generation complete.
         /// </summary>
         private event EventHandler GenerationComplete;
 
@@ -91,35 +93,21 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        public void Form1KeyDown(object sender, PreviewKeyDownEventArgs e)
+        public void FormOnKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
         }
 
         /// <summary>
-        /// The perform render.
+        ///     The perform render.
         /// </summary>
         public void PerformRender()
         {
-            this.glControl1.Invalidate(); 
+            this.glControl1.Invalidate();
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// The form 1 form closing.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Form1FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.regenerationThread.Abort();
-        }
 
         /// <summary>
         /// The form 1 generation complete.
@@ -147,6 +135,20 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
+        /// The form 1 form closing.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void FormOnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.regenerationThread.Abort();
+        }
+
+        /// <summary>
         /// The form 1 load.
         /// </summary>
         /// <param name="sender">
@@ -155,7 +157,7 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void Form1Load(object sender, EventArgs e)
+        private void FormOnLoad(object sender, EventArgs e)
         {
             this.GenerationComplete += this.Form1GenerationComplete;
             this.GenerateMaze(Settings.Default.MazeSize);
@@ -172,9 +174,25 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void Form1Resize(object sender, EventArgs e)
+        private void FormOnResize(object sender, EventArgs e)
         {
-            this.glControl1.Invalidate();
+            GL.Viewport(this.glControl1.Size);
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+
+            var s = this.glControl1.Size;
+
+            if (s.Width > s.Height)
+            {
+                GL.Ortho(-s.Width / (double)s.Height, s.Width / (double)s.Height, -1, 1, -1, 1);
+            }
+            else
+            {
+                GL.Ortho(-1, 1, -s.Height / (double)s.Width, s.Height / (double)s.Width, -1, 1);
+            }
+
+            GL.MatrixMode(MatrixMode.Modelview);
         }
 
         /// <summary>
@@ -186,136 +204,15 @@ namespace BeardedWallhackCSharp
         private void GenerateMaze(int resolution)
         {
             this.panel1.Visible = false;
-            this.panel1.Controls.Clear();
 
             this.UpdateData("Initialising thread...", -1);
 
             Thread.Sleep(100);
 
-            var tsd = new ThreadStartData
-                          {
-                              Height = this.panel1.Width / resolution, 
-                              Width = this.panel1.Height / resolution, 
-                          };
+            var tsd = new[] { this.panel1.Width, this.panel1.Height, }.Min() / resolution;
 
             this.regenerationThread = new Thread(this.RegenerationThreadDoWork) { Priority = ThreadPriority.Lowest };
             this.regenerationThread.Start(tsd);
-        }
-
-        /// <summary>
-        /// The regeneration thread_ do work.
-        /// </summary>
-        /// <param name="startData">
-        /// The start data.
-        /// </param>
-        private void RegenerationThreadDoWork(object startData)
-        {
-            var data = (ThreadStartData)startData;
-
-            int width = data.Width;
-            int height = data.Height;
-
-            this.UpdateData("Generating maze", 0);
-
-            var maze = new Maze(width, height);
-
-            this.UpdateData("Rendering maze", 0);
-            lock (this.mazeLock)
-            {
-                this.realMaze = maze;
-            }
-
-            this.Invoke(new Action(this.PerformRender));
-
-            this.UpdateData("Drawing completed maze", -1);
-
-            this.GenerationComplete(this, new EventArgs());
-        }
-
-        /// <summary>
-        /// The tool strip button 1_ click.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ToolStripButton1Click(object sender, EventArgs e)
-        {
-            this.GenerateMaze(Settings.Default.MazeSize);
-        }
-
-        /// <summary>
-        /// The tool strip button 3_ click.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ToolStripButton3Click(object sender, EventArgs e)
-        {
-           
-        }
-
-        /// <summary>
-        /// The update data.
-        /// </summary>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        /// <param name="percent">
-        /// The percent.
-        /// </param>
-        private void UpdateData(string message = "", int percent = -2)
-        {
-            if (this.InvokeRequired)
-            {
-                // Thread.Sleep(10);
-                UpdateDataDelegate udd = this.UpdateData;
-                this.Invoke(udd, message, percent);
-                return;
-            }
-
-            if (message != string.Empty)
-            {
-                this.label2.Text = message;
-            }
-
-            if (percent <= 100 && percent >= 0)
-            {
-                this.progressBar1.Style = ProgressBarStyle.Continuous;
-                this.progressBar1.Value = percent;
-            }
-
-            if (percent == -1)
-            {
-                this.progressBar1.Style = ProgressBarStyle.Marquee;
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// The thread start data.
-        /// </summary>
-        private struct ThreadStartData
-        {
-            #region Fields
-
-            /// <summary>
-            /// The Height.
-            /// </summary>
-            public int Height;
-
-            /// <summary>
-            /// The Width.
-            /// </summary>
-            public int Width;
-
-            #endregion
         }
 
         /// <summary>
@@ -331,7 +228,97 @@ namespace BeardedWallhackCSharp
         {
             this.mazeRenderer.Render();
 
-            glControl1.SwapBuffers();
+            this.glControl1.SwapBuffers();
         }
+
+        /// <summary>
+        /// The tool strip button 1_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void NewButtonClick(object sender, EventArgs e)
+        {
+            this.GenerateMaze(Settings.Default.MazeSize);
+        }
+
+        /// <summary>
+        /// The regeneration thread_ do work.
+        /// </summary>
+        /// <param name="startData">
+        /// The start data.
+        /// </param>
+        private void RegenerationThreadDoWork(object startData)
+        {
+            var data = (int)startData;
+
+            this.UpdateData("Generating maze", 0);
+
+            var maze = new Maze(data, data);
+
+            this.UpdateData("Rendering maze", 0);
+            lock (this.mazeLock)
+            {
+                this.realMaze = maze;
+            }
+
+            this.UpdateData("Drawing completed maze", -1);
+
+            this.GenerationComplete(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// The tool strip button 3_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void SolveButtonClick(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// The update data.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="percentComplete">
+        /// The percent complete.
+        /// </param>
+        private void UpdateData(string message = "", int percentComplete = -2)
+        {
+            if (this.InvokeRequired)
+            {
+                // Thread.Sleep(10);
+                UpdateDataDelegate udd = this.UpdateData;
+                this.Invoke(udd, message, percentComplete);
+                return;
+            }
+
+            if (message != string.Empty)
+            {
+                this.label2.Text = message;
+            }
+
+            if (percentComplete <= 100 && percentComplete >= 0)
+            {
+                this.progressBar1.Style = ProgressBarStyle.Continuous;
+                this.progressBar1.Value = percentComplete;
+            }
+
+            if (percentComplete == -1)
+            {
+                this.progressBar1.Style = ProgressBarStyle.Marquee;
+            }
+        }
+
+        #endregion
     }
 }

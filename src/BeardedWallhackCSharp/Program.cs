@@ -19,7 +19,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The app.
         /// </summary>
-        public static MainForm App;
+        public static Form App;
 
         #endregion
 

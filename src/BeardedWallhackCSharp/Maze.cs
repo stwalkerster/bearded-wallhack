@@ -7,14 +7,14 @@
 namespace BeardedWallhackCSharp
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-
-    using BeardedWallhackCSharp.Properties;
+    using System.Linq;
 
     /// <summary>
     /// The maze.
     /// </summary>
-    public class Maze
+    public class Maze : IEnumerable<Block>
     {
         #region Fields
 
@@ -40,8 +40,8 @@ namespace BeardedWallhackCSharp
         {
             // swapped to fix something 
             // TODO: locate cause of need for this
-            this.Height = width;
-            this.Width = height;
+            this.Width = width;
+            this.Height = height;
 
             this.Generate();
         }
@@ -145,6 +145,10 @@ namespace BeardedWallhackCSharp
                 for (int y = 0; y < this.Height; y++)
                 {
                     this.mazeBlocks[x, y] = new Block();
+
+                    this.mazeBlocks[x, y].PositionX = x;
+                    this.mazeBlocks[x, y].PositionY = y;
+
                     Wall w;
 
                     if (x != 0)
@@ -160,8 +164,6 @@ namespace BeardedWallhackCSharp
                         this.mazeBlocks[x, y].WallTop = w;
                         this.mazeBlocks[x, y - 1].WallBottom = w;
                     }
-
-                    this.mazeBlocks[x, y].Hidden = !Settings.Default.RevealMaze;
                 }
             }
 
@@ -237,12 +239,20 @@ namespace BeardedWallhackCSharp
 
             this.ExitBlock = this.mazeBlocks[this.Width - 1, this.Height - 1];
             this.ExitBlock.IsExit = true;
-            this.ExitBlock.CurrentState = Block.State.Exit;
 
             this.CurrentBlock = startBlock;
-            this.CurrentBlock.CurrentState = Block.State.Current;
         }
 
         #endregion
+
+        public IEnumerator<Block> GetEnumerator()
+        {
+            return this.mazeBlocks.Cast<Block>().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.mazeBlocks.GetEnumerator();
+        }
     }
 }
