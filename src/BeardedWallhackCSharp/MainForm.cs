@@ -59,17 +59,6 @@ namespace BeardedWallhackCSharp
 
         #region Delegates
 
-        /// <summary>
-        ///     The update data delegate.
-        /// </summary>
-        /// <param name="message">
-        ///     The message.
-        /// </param>
-        /// <param name="percent">
-        ///     The percentComplete.
-        /// </param>
-        private delegate void UpdateDataDelegate(string message, int percent);
-
         #endregion
 
         // private Block currentBlock { get; set; }
@@ -205,11 +194,9 @@ namespace BeardedWallhackCSharp
         {
             this.panel1.Visible = false;
 
-            this.UpdateData("Initialising thread...", -1);
-
             Thread.Sleep(100);
 
-            var tsd = new[] { this.panel1.Width, this.panel1.Height, }.Min() / resolution;
+            var tsd = new[] { this.panel1.Width, this.panel1.Height }.Min() / resolution;
 
             this.regenerationThread = new Thread(this.RegenerationThreadDoWork) { Priority = ThreadPriority.Lowest };
             this.regenerationThread.Start(tsd);
@@ -255,17 +242,12 @@ namespace BeardedWallhackCSharp
         {
             var data = (int)startData;
 
-            this.UpdateData("Generating maze", 0);
-
             var maze = new Maze(data, data);
 
-            this.UpdateData("Rendering maze", 0);
             lock (this.mazeLock)
             {
                 this.realMaze = maze;
             }
-
-            this.UpdateData("Drawing completed maze", -1);
 
             this.GenerationComplete(this, new EventArgs());
         }
@@ -281,42 +263,6 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void SolveButtonClick(object sender, EventArgs e)
         {
-        }
-
-        /// <summary>
-        /// The update data.
-        /// </summary>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        /// <param name="percentComplete">
-        /// The percent complete.
-        /// </param>
-        private void UpdateData(string message = "", int percentComplete = -2)
-        {
-            if (this.InvokeRequired)
-            {
-                // Thread.Sleep(10);
-                UpdateDataDelegate udd = this.UpdateData;
-                this.Invoke(udd, message, percentComplete);
-                return;
-            }
-
-            if (message != string.Empty)
-            {
-                this.label2.Text = message;
-            }
-
-            if (percentComplete <= 100 && percentComplete >= 0)
-            {
-                this.progressBar1.Style = ProgressBarStyle.Continuous;
-                this.progressBar1.Value = percentComplete;
-            }
-
-            if (percentComplete == -1)
-            {
-                this.progressBar1.Style = ProgressBarStyle.Marquee;
-            }
         }
 
         #endregion
