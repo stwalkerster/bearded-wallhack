@@ -113,9 +113,7 @@ namespace BeardedWallhackCSharp
                 this.Invoke(eh, sender, e);
                 return;
             }
-
-            this.panel1.Visible = true;
-
+            
             this.mazeRenderer.Maze = this.realMaze;
             this.mazeRenderer.Position = new MazePosition(this.realMaze[0, 0], Maze.Direction.Down);
             this.glControl1.Invalidate();
@@ -194,8 +192,6 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void GenerateMaze(int resolution)
         {
-            this.panel1.Visible = false;
-
             Thread.Sleep(100);
 
             int tsd = new[] { this.glControl1.Width, this.glControl1.Height }.Min() / resolution;
@@ -269,5 +265,10 @@ namespace BeardedWallhackCSharp
         }
 
         #endregion
+
+        private void runButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

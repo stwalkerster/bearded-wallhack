@@ -120,19 +120,6 @@
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE8SURBVDhPjZNBq4JAFIX9q/rHWggtlHAhEYQILkQXkohE
-        1CJCRBREEHUhJvdx7mt6IWrvwjDDMPebc86oJErXdcLQNG12KIpCr6PzhUOf1TQNlWVJ5/OZrtfrd8gU
-        0Pc91XVNt9vtDTAMYxkyB2jblh6PBwPQKMvye361/dUU8Hw+2UaapgwIw5D2+z1tNpv/AcZxZBVZltH9
-        fqfj8Ujb7ZZUVZ23MQWgAMjznBWYpkm73W45zE8Abod/vEIUReS6Ltm2TZZl0eFwWLeA5mEYqKoqlg7v
-        p9OJIY7jMOhrBggvSRIGXC4XiuOYIZ7nMWjVAm4vioLTF08ICJQEQfAd0HUdBzcFIAuo8H1/HYDgBODT
-        hgDAxmoGaMbboxkK8CkLCwIwqwB/onj3NQuLAGxiQJ5YT/cwi/VvlyT9AHFkZ/QpVRhiAAAAAElFTkSu
-        QmCC
-</value>
-  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>
   </metadata>
