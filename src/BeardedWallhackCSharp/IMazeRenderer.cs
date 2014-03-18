@@ -6,6 +6,8 @@
 
 namespace BeardedWallhackCSharp
 {
+    using System;
+
     /// <summary>
     /// The MazeRenderer interface.
     /// </summary>
@@ -33,5 +35,10 @@ namespace BeardedWallhackCSharp
         void Render();
 
         #endregion
+
+        /// <summary>
+        ///     The force redraw required.
+        /// </summary>
+        event EventHandler ForceRedrawRequired;
     }
 }

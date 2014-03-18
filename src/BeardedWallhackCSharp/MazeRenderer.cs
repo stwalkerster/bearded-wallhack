@@ -1,10 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MazeRenderer.cs" company="Simon Walker">
+// <copyright file="MazeRenderer.cs" company="">
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace BeardedWallhackCSharp
 {
+    using System;
     using System.Drawing;
     using System.Linq;
 
@@ -18,12 +19,17 @@ namespace BeardedWallhackCSharp
         #region Fields
 
         /// <summary>
-        /// The maze.
+        ///     The maze.
         /// </summary>
         private Maze maze;
 
         /// <summary>
-        /// The room size.
+        /// The position.
+        /// </summary>
+        private MazePosition position;
+
+        /// <summary>
+        ///     The room size.
         /// </summary>
         private double roomSize = 1.0;
 
@@ -48,6 +54,15 @@ namespace BeardedWallhackCSharp
 
         #endregion
 
+        #region Public Events
+
+        /// <summary>
+        ///     The force redraw required.
+        /// </summary>
+        public event EventHandler ForceRedrawRequired;
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
@@ -68,13 +83,36 @@ namespace BeardedWallhackCSharp
                 {
                     this.roomSize = new[] { 2.0 / this.Maze.Height, 2.0 / this.Maze.Width }.Min();
                 }
+
+                EventHandler onEvent = this.ForceRedrawRequired;
+                if (onEvent != null)
+                {
+                    onEvent(this, EventArgs.Empty);
+                }
             }
         }
 
         /// <summary>
         ///     Gets or sets the position.
         /// </summary>
-        public MazePosition Position { get; set; }
+        public MazePosition Position
+        {
+            get
+            {
+                return this.position;
+            }
+
+            set
+            {
+                this.position = value;
+
+                EventHandler onEvent = this.ForceRedrawRequired;
+                if (onEvent != null)
+                {
+                    onEvent(this, EventArgs.Empty);
+                }
+            }
+        }
 
         #endregion
 
@@ -99,11 +137,11 @@ namespace BeardedWallhackCSharp
             foreach (Block block in this.Maze)
             {
                 GL.PushMatrix();
-                var floorColour = block.IsExit ? exitColour : baseFloorColour;
+                Color floorColour = block.IsExit ? exitColour : baseFloorColour;
 
                 GL.Translate(this.roomSize * block.PositionX, this.roomSize * -block.PositionY, 0.0);
                 GL.Scale(this.roomSize / 2, this.roomSize / 2, 1.0);
-                
+
                 // Main block
                 GL.Color3(floorColour);
 
@@ -176,7 +214,7 @@ namespace BeardedWallhackCSharp
                 GL.Vertex2(-WallWidth, -WallWidth);
                 GL.Vertex2(-1, -WallWidth);
                 GL.End();
-                
+
                 GL.PopMatrix();
             }
 

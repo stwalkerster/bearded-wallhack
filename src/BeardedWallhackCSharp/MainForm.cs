@@ -1,11 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainForm.cs" company="Simon Walker">
+// <copyright file="MainForm.cs" company="">
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace BeardedWallhackCSharp
 {
     using System;
+    using System.Drawing;
     using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
@@ -53,11 +54,8 @@ namespace BeardedWallhackCSharp
         {
             this.InitializeComponent();
             this.mazeRenderer = new MazeRenderer(null, null);
+            this.mazeRenderer.ForceRedrawRequired += this.mazeRendererOnForceRedrawRequired;
         }
-
-        #endregion
-
-        #region Delegates
 
         #endregion
 
@@ -135,6 +133,7 @@ namespace BeardedWallhackCSharp
         private void FormOnFormClosing(object sender, FormClosingEventArgs e)
         {
             this.regenerationThread.Abort();
+            this.mazeRenderer.ForceRedrawRequired -= this.mazeRendererOnForceRedrawRequired;
         }
 
         /// <summary>
@@ -152,6 +151,9 @@ namespace BeardedWallhackCSharp
             this.GenerateMaze(Settings.Default.MazeSize);
 
             this.glControl1.MakeCurrent();
+
+            // trigger a resize event
+            this.FormOnResize(sender, e);
         }
 
         /// <summary>
@@ -170,7 +172,7 @@ namespace BeardedWallhackCSharp
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
 
-            var s = this.glControl1.Size;
+            Size s = this.glControl1.Size;
 
             if (s.Width > s.Height)
             {
@@ -196,7 +198,7 @@ namespace BeardedWallhackCSharp
 
             Thread.Sleep(100);
 
-            var tsd = new[] { this.panel1.Width, this.panel1.Height }.Min() / resolution;
+            int tsd = new[] { this.glControl1.Width, this.glControl1.Height }.Min() / resolution;
 
             this.regenerationThread = new Thread(this.RegenerationThreadDoWork) { Priority = ThreadPriority.Lowest };
             this.regenerationThread.Start(tsd);
@@ -253,7 +255,7 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The tool strip button 3_ click.
+        /// The maze renderer on force redraw required.
         /// </summary>
         /// <param name="sender">
         /// The sender.
@@ -261,8 +263,9 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void SolveButtonClick(object sender, EventArgs e)
+        private void mazeRendererOnForceRedrawRequired(object sender, EventArgs e)
         {
+            this.glControl1.Invalidate();
         }
 
         #endregion

@@ -133,20 +133,6 @@
         QmCC
 </value>
   </data>
-  <data name="toolStripButton3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHdSURBVDhPY6A/qGdggbLIAIsYuMXKBM/yx/Jvh4qQAICa
-        xSt4L+y9vut/7Lyw/4w+DFugMkSAbqDmct6LO69v+x81P+i/40yr/4GTPf8zOjNugqpgYOBdyCAsvJjF
-        FMqFA3GgzcJAzdvvbPkftSnwv8g8tv/iU7n/CwUL3OX3ZxAAK+KZySBi1W/41n6S/U/uBQyOYEEgEF3F
-        wCNRI3hx++PN/xOOhP5X3S76X2Gx8H9mL6bbDBYMnGBF4vXcYp49Lm923d36f92tlf+1+rW+ia7isNFa
-        xcAm1yR+cdWjpf+zLiT8Nz+p8V9/g9J/Zh/mOwz2DBxgzSDAHsSyJG1F7L/Ki/n/F9+f+3/+/Rn/leqV
-        vqjWyj1a8HTm/5Lbmf89b1j+tz1k+J85jPkuQyHUZmTA4ce6x2CqxM/468H/Jz7p+D/tad//pa/m/695
-        Xvg/8rnXf59r9v+5kzjuyvRi0QwDjP6Muw02SvyMe+n/v+V9xf+WT5X/079G/A8DGiCQw31Xfr88wtm4
-        AEsw416z/WY/8v8l/K/4n/k/9UPEf6Eiobshjyxw24wOWCNYdofvd/rZ+K78v0KBwp36//GEbUYHvPGc
-        +xQb5M+u/NdLvM3oIO1/GiuUSUvAwAAAti2606cqmC0AAAAASUVORK5CYII=
-</value>
-  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>
   </metadata>
