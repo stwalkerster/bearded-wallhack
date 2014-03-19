@@ -272,7 +272,7 @@ namespace BeardedWallhackCSharp
         {
             var luaInterface = LuaRuntime.GetLua();
 
-            luaInterface.DoString(this.textBox1.Text);
+            luaInterface.DoString(this.scintilla1.Text);
         }
     }
 }
