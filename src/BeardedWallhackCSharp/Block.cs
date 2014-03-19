@@ -155,6 +155,8 @@ namespace BeardedWallhackCSharp
         /// </summary>
         public Wall WallTop { get; set; }
 
+        public bool IsStart { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
