@@ -7,12 +7,11 @@ namespace BeardedWallhackCSharp
 {
     using System;
     using System.Drawing;
-    using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
 
-    using AluminumLua;
+    using SharpLua;
 
     using BeardedWallhackCSharp.Properties;
 
@@ -271,22 +270,9 @@ namespace BeardedWallhackCSharp
 
         private void runButton_Click(object sender, EventArgs e)
         {
-            var luaRuntime = new LuaContext();
+            var luaInterface = LuaRuntime.GetLua();
 
-            luaRuntime.AddBasicLibrary();
-            luaRuntime.AddIoLibrary();
-
-            luaRuntime.SetGlobal("print", this.print);
-
-            var luaParser = new LuaParser(luaRuntime, new StringReader(this.textBox1.Text));
-
-            luaParser.Parse();
-        }
-
-        private LuaObject print(LuaObject[] args)
-        {
-            Console.WriteLine(args[0]);
-            return true;
+            luaInterface.DoString(this.textBox1.Text);
         }
     }
 }

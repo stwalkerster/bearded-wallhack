@@ -1,4 +1,0 @@
-Build 12: https://jenkins.stwalkerster.co.uk/job/AluminumLua/12/artifact/net40.zip
-
-SHA1: 0bc5858306cf78708cb4e369075ae76ddb2bbad5
-Git Location: https://github.com/chkn/AluminumLua/
