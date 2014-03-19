@@ -26,7 +26,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The position.
         /// </summary>
-        private Turtle position;
+        private Turtle turtle;
 
         /// <summary>
         ///     The room size.
@@ -43,13 +43,13 @@ namespace BeardedWallhackCSharp
         /// <param name="maze">
         /// The maze.
         /// </param>
-        /// <param name="position">
+        /// <param name="turtle">
         /// The position.
         /// </param>
-        public MazeRenderer(Maze maze, Turtle position)
+        public MazeRenderer(Maze maze, Turtle turtle)
         {
             this.Maze = maze;
-            this.Position = position;
+            this.Turtle = turtle;
         }
 
         #endregion
@@ -95,16 +95,16 @@ namespace BeardedWallhackCSharp
         /// <summary>
         ///     Gets or sets the position.
         /// </summary>
-        public Turtle Position
+        public Turtle Turtle
         {
             get
             {
-                return this.position;
+                return this.turtle;
             }
 
             set
             {
-                this.position = value;
+                this.turtle = value;
 
                 EventHandler onEvent = this.ForceRedrawRequired;
                 if (onEvent != null)
@@ -225,8 +225,8 @@ namespace BeardedWallhackCSharp
                 GL.PushMatrix();
 
                 GL.Translate(
-                    this.roomSize * this.Position.Block.PositionX,
-                    this.roomSize * -this.Position.Block.PositionY,
+                    this.roomSize * this.Turtle.Block.PositionX,
+                    this.roomSize * -this.Turtle.Block.PositionY,
                     0.0);
                 GL.Scale(this.roomSize / 2, this.roomSize / 2, 1.0);
 
@@ -247,28 +247,28 @@ namespace BeardedWallhackCSharp
 
             GL.Color3(Color.Blue);
             
-            if (this.Position.Direction == Maze.Direction.Right)
+            if (this.Turtle.Direction == Maze.Direction.Right)
             {
                 GL.Vertex2(-0.3, 0.6);
                 GL.Vertex2(-0.3, -0.6);
                 GL.Vertex2(0.3, 0);
             }
 
-            if (this.Position.Direction == Maze.Direction.Up)
+            if (this.Turtle.Direction == Maze.Direction.Up)
             {
                 GL.Vertex2(0, 0.3);
                 GL.Vertex2(-0.6, -0.3);
                 GL.Vertex2(0.6, -0.3);
             }
 
-            if (this.Position.Direction == Maze.Direction.Left)
+            if (this.Turtle.Direction == Maze.Direction.Left)
             {
                 GL.Vertex2(0.3, 0.6);
                 GL.Vertex2(0.3, -0.6);
                 GL.Vertex2(-0.3, 0);
             }
 
-            if (this.Position.Direction == Maze.Direction.Down)
+            if (this.Turtle.Direction == Maze.Direction.Down)
             {
                 GL.Vertex2(0, -0.3);
                 GL.Vertex2(-0.6, 0.3);

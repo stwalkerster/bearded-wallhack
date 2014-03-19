@@ -6,6 +6,7 @@
 namespace BeardedWallhackCSharp
 {
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Threading;
@@ -43,6 +44,8 @@ namespace BeardedWallhackCSharp
         ///     The _regeneration thread.
         /// </summary>
         private Thread regenerationThread;
+
+        private Turtle turtle;
 
         #endregion
 
@@ -115,7 +118,8 @@ namespace BeardedWallhackCSharp
             }
 
             this.mazeRenderer.Maze = this.realMaze;
-            this.mazeRenderer.Position = new Turtle(this.realMaze[0, 0], Maze.Direction.Down);
+            this.turtle = new Turtle(this.realMaze[0, 0], Maze.Direction.Down);
+            this.mazeRenderer.Turtle = this.turtle;
             this.glControl1.Invalidate();
         }
 
@@ -261,7 +265,13 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void RunButtonClick(object sender, EventArgs e)
         {
+            List<string> actions = new List<string>();
+
             LuaInterface luaInterface = LuaRuntime.GetLua();
+
+            var turnLeft = new Action(() => actions.Add("left"));
+
+            luaInterface.RegisterFunction("turnLeft", null, turnLeft.Method);
 
             luaInterface.DoString(this.scintilla1.Text);
         }

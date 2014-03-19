@@ -23,7 +23,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         ///     Gets or sets the position.
         /// </summary>
-        Turtle Position { get; set; }
+        Turtle Turtle { get; set; }
 
         #endregion
 

@@ -42,5 +42,25 @@ namespace BeardedWallhackCSharp
         public Maze.Direction Direction { get; private set; }
 
         #endregion
+
+        public void GoForward()
+        {
+            this.GoForward(1);
+        }
+
+        public void GoForward(int amount)
+        {
+            
+        }
+
+        public void TurnLeft()
+        {
+          //  this.Direction = (this.Direction + 1);
+        }
+
+        public void TurnRight()
+        {
+         //   this.Direction = (this.Direction - 1);
+        }
     }
 }
