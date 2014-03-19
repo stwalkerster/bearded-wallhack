@@ -65,7 +65,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Maze.cs" />
-    <Compile Include="MazePosition.cs" />
+    <Compile Include="Turtle.cs" />
     <Compile Include="MazeRenderer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

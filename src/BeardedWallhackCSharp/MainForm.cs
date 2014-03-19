@@ -11,11 +11,11 @@ namespace BeardedWallhackCSharp
     using System.Threading;
     using System.Windows.Forms;
 
-    using SharpLua;
-
     using BeardedWallhackCSharp.Properties;
 
     using OpenTK.Graphics.OpenGL;
+
+    using SharpLua;
 
     /// <summary>
     ///     The main form.
@@ -46,7 +46,6 @@ namespace BeardedWallhackCSharp
 
         #endregion
 
-        // private int _width;
         #region Constructors and Destructors
 
         /// <summary>
@@ -56,12 +55,11 @@ namespace BeardedWallhackCSharp
         {
             this.InitializeComponent();
             this.mazeRenderer = new MazeRenderer(null, null);
-            this.mazeRenderer.ForceRedrawRequired += this.mazeRendererOnForceRedrawRequired;
+            this.mazeRenderer.ForceRedrawRequired += this.MazeRendererOnForceRedrawRequired;
         }
 
         #endregion
 
-        // private Block currentBlock { get; set; }
         #region Events
 
         /// <summary>
@@ -115,9 +113,9 @@ namespace BeardedWallhackCSharp
                 this.Invoke(eh, sender, e);
                 return;
             }
-            
+
             this.mazeRenderer.Maze = this.realMaze;
-            this.mazeRenderer.Position = new MazePosition(this.realMaze[0, 0], Maze.Direction.Down);
+            this.mazeRenderer.Position = new Turtle(this.realMaze[0, 0], Maze.Direction.Down);
             this.glControl1.Invalidate();
         }
 
@@ -133,7 +131,7 @@ namespace BeardedWallhackCSharp
         private void FormOnFormClosing(object sender, FormClosingEventArgs e)
         {
             this.regenerationThread.Abort();
-            this.mazeRenderer.ForceRedrawRequired -= this.mazeRendererOnForceRedrawRequired;
+            this.mazeRenderer.ForceRedrawRequired -= this.MazeRendererOnForceRedrawRequired;
         }
 
         /// <summary>
@@ -219,7 +217,7 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The tool strip button 1_ click.
+        /// The maze renderer on force redraw required.
         /// </summary>
         /// <param name="sender">
         /// The sender.
@@ -227,9 +225,9 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void NewButtonClick(object sender, EventArgs e)
+        private void MazeRendererOnForceRedrawRequired(object sender, EventArgs e)
         {
-            this.GenerateMaze(Settings.Default.MazeSize);
+            this.glControl1.Invalidate();
         }
 
         /// <summary>
@@ -253,7 +251,7 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The maze renderer on force redraw required.
+        /// The run button click.
         /// </summary>
         /// <param name="sender">
         /// The sender.
@@ -261,18 +259,13 @@ namespace BeardedWallhackCSharp
         /// <param name="e">
         /// The e.
         /// </param>
-        private void mazeRendererOnForceRedrawRequired(object sender, EventArgs e)
+        private void RunButtonClick(object sender, EventArgs e)
         {
-            this.glControl1.Invalidate();
-        }
-
-        #endregion
-
-        private void runButton_Click(object sender, EventArgs e)
-        {
-            var luaInterface = LuaRuntime.GetLua();
+            LuaInterface luaInterface = LuaRuntime.GetLua();
 
             luaInterface.DoString(this.scintilla1.Text);
         }
+
+        #endregion
     }
 }

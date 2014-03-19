@@ -136,7 +136,7 @@
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(48, 22);
             this.runButton.Text = "&Run";
-            this.runButton.Click += new System.EventHandler(this.runButton_Click);
+            this.runButton.Click += new System.EventHandler(this.RunButtonClick);
             // 
             // glControl1
             // 

@@ -26,7 +26,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The position.
         /// </summary>
-        private MazePosition position;
+        private Turtle position;
 
         /// <summary>
         ///     The room size.
@@ -46,7 +46,7 @@ namespace BeardedWallhackCSharp
         /// <param name="position">
         /// The position.
         /// </param>
-        public MazeRenderer(Maze maze, MazePosition position)
+        public MazeRenderer(Maze maze, Turtle position)
         {
             this.Maze = maze;
             this.Position = position;
@@ -95,7 +95,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         ///     Gets or sets the position.
         /// </summary>
-        public MazePosition Position
+        public Turtle Position
         {
             get
             {

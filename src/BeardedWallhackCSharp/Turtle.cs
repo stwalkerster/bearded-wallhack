@@ -8,12 +8,12 @@ namespace BeardedWallhackCSharp
     /// <summary>
     ///     The maze position.
     /// </summary>
-    public class MazePosition
+    public class Turtle
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="MazePosition"/> class.
+        /// Initialises a new instance of the <see cref="Turtle"/> class.
         /// </summary>
         /// <param name="block">
         /// The block.
@@ -21,7 +21,7 @@ namespace BeardedWallhackCSharp
         /// <param name="direction">
         /// The direction.
         /// </param>
-        public MazePosition(Block block, Maze.Direction direction)
+        public Turtle(Block block, Maze.Direction direction)
         {
             this.Block = block;
             this.Direction = direction;
