@@ -17,6 +17,7 @@ namespace BeardedWallhackCSharp
     using OpenTK.Graphics.OpenGL;
 
     using SharpLua;
+    using SharpLua.LuaTypes;
 
     /// <summary>
     ///     The main form.
@@ -265,15 +266,35 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void RunButtonClick(object sender, EventArgs e)
         {
-            List<string> actions = new List<string>();
+            LuaTable luaInterface = LuaRuntime.CreateGlobalEnviroment();
 
-            LuaInterface luaInterface = LuaRuntime.GetLua();
+            luaInterface.Register(
+                "turnLeft",
+                delegate
+                    {
+                        this.turtle.TurnLeft();
+                        return null;
+                    });            
+            
+            luaInterface.Register(
+                "turnRight",
+                delegate
+                    {
+                        this.turtle.TurnRight();
+                        return null;
+                    });            
+            
+            luaInterface.Register(
+                "goForward",
+                delegate
+                    {
+                        this.turtle.GoForward();
+                        return null;
+                    });
 
-            var turnLeft = new Action(() => actions.Add("left"));
+            LuaRuntime.Run(this.scintilla1.Text, luaInterface);
 
-            luaInterface.RegisterFunction("turnLeft", null, turnLeft.Method);
-
-            luaInterface.DoString(this.scintilla1.Text);
+            this.glControl1.Invalidate();
         }
 
         #endregion

@@ -3,37 +3,26 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace BeardedWallhackCSharp
 {
     /// <summary>
-    /// The wall.
+    ///     The wall.
     /// </summary>
     public class Wall
     {
         #region Fields
 
         /// <summary>
-        /// The a.
-        /// </summary>
-        public Block a;
-
-        /// <summary>
-        /// The b.
-        /// </summary>
-        public Block b;
-
-        /// <summary>
         /// The present.
         /// </summary>
-        public bool present = true;
+        private bool present = true;
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Wall"/> class.
+        /// Initialises a new instance of the <see cref="Wall"/> class.
         /// </summary>
         /// <param name="a">
         /// The a.
@@ -46,9 +35,39 @@ namespace BeardedWallhackCSharp
         /// </param>
         public Wall(Block a, Block b, bool present)
         {
-            this.a = a;
-            this.b = b;
+            this.A = a;
+            this.B = b;
             this.present = present;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the a.
+        /// </summary>
+        public Block A { get; set; }
+
+        /// <summary>
+        /// Gets or sets the b.
+        /// </summary>
+        public Block B { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether present.
+        /// </summary>
+        public bool Present
+        {
+            get
+            {
+                return this.present;
+            }
+
+            set
+            {
+                this.present = value;
+            }
         }
 
         #endregion
@@ -64,9 +83,9 @@ namespace BeardedWallhackCSharp
         /// <returns>
         /// The <see cref="Block"/>.
         /// </returns>
-        public Block getOpposite(Block x)
+        public Block GetOpposite(Block x)
         {
-            return x == this.a ? this.b : this.a;
+            return x == this.A ? this.B : this.A;
         }
 
         #endregion

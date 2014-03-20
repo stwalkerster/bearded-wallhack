@@ -63,7 +63,7 @@ namespace BeardedWallhackCSharp
                     return false;
                 }
 
-                return !this.WallBottom.present;
+                return !this.WallBottom.Present;
             }
         }
 
@@ -79,7 +79,7 @@ namespace BeardedWallhackCSharp
                     return false;
                 }
 
-                return !this.WallLeft.present;
+                return !this.WallLeft.Present;
             }
         }
 
@@ -95,7 +95,7 @@ namespace BeardedWallhackCSharp
                     return false;
                 }
 
-                return !this.WallRight.present;
+                return !this.WallRight.Present;
             }
         }
 
@@ -111,7 +111,7 @@ namespace BeardedWallhackCSharp
                     return false;
                 }
 
-                return !this.WallTop.present;
+                return !this.WallTop.Present;
             }
         }
 
@@ -172,11 +172,11 @@ namespace BeardedWallhackCSharp
             int count = 0;
             if (this.WallTop != null)
             {
-                if (this.WallTop.present)
+                if (this.WallTop.Present)
                 {
                     count++;
                 }
-                else if (!this.WallTop.getOpposite(this).InMaze)
+                else if (!this.WallTop.GetOpposite(this).InMaze)
                 {
                     count++;
                 }
@@ -188,11 +188,11 @@ namespace BeardedWallhackCSharp
 
             if (this.WallBottom != null)
             {
-                if (this.WallBottom.present)
+                if (this.WallBottom.Present)
                 {
                     count++;
                 }
-                else if (!this.WallBottom.getOpposite(this).InMaze)
+                else if (!this.WallBottom.GetOpposite(this).InMaze)
                 {
                     count++;
                 }
@@ -204,11 +204,11 @@ namespace BeardedWallhackCSharp
 
             if (this.WallLeft != null)
             {
-                if (this.WallLeft.present)
+                if (this.WallLeft.Present)
                 {
                     count++;
                 }
-                else if (!this.WallLeft.getOpposite(this).InMaze)
+                else if (!this.WallLeft.GetOpposite(this).InMaze)
                 {
                     count++;
                 }
@@ -220,11 +220,11 @@ namespace BeardedWallhackCSharp
 
             if (this.WallRight != null)
             {
-                if (this.WallRight.present)
+                if (this.WallRight.Present)
                 {
                     count++;
                 }
-                else if (!this.WallRight.getOpposite(this).InMaze)
+                else if (!this.WallRight.GetOpposite(this).InMaze)
                 {
                     count++;
                 }

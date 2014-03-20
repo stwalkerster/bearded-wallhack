@@ -204,12 +204,12 @@ namespace BeardedWallhackCSharp
                 // Pick a random wall from the list. If the cell on the opposite side isn't in the maze yet:
                 int wallId = rnd.Next(0, walls.Count);
 
-                Block newBlock = walls[wallId].Key.getOpposite(walls[wallId].Value);
+                Block newBlock = walls[wallId].Key.GetOpposite(walls[wallId].Value);
 
                 if (!newBlock.InMaze)
                 {
                     // Make the wall a passage and mark the cell on the opposite side as part of the maze.
-                    walls[wallId].Key.present = false;
+                    walls[wallId].Key.Present = false;
                     newBlock.InMaze = true;
 
                     // Add the neighboring walls of the cell to the wall list.

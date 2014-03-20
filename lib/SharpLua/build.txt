@@ -1,4 +1,6 @@
-Build 3: https://jenkins.stwalkerster.co.uk/job/SharpLua/3/artifact/*zip*/archive.zip
+Build 1: https://jenkins.stwalkerster.co.uk/job/SharpLua-legacy/1/artifact/*zip*/archive.zip
 
 SHA1: f515f9dc47deb81c7ded3107f7007be9299b1efd
 Git Location: https://github.com/mlnlover11/SharpLua/
+
+Project: OLD.SharpLua/SharpLua/SharpLua.csproj
