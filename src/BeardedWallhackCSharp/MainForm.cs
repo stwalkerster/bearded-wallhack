@@ -330,6 +330,8 @@ namespace BeardedWallhackCSharp
         /// </summary>
         private void ResetMazeState()
         {
+            this.turtle.Direction = Maze.Direction.Down;
+            
             this.turtle.Block = this.realMaze[0, 0];
             foreach (var b in this.realMaze)
             {

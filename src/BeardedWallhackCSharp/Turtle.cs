@@ -39,9 +39,9 @@ namespace BeardedWallhackCSharp
         public Block Block { get; set; }
 
         /// <summary>
-        ///     Gets the direction.
+        ///     Gets or sets the direction.
         /// </summary>
-        public Maze.Direction Direction { get; private set; }
+        public Maze.Direction Direction { get; set; }
 
         #endregion
 
