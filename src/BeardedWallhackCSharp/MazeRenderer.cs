@@ -140,7 +140,7 @@ namespace BeardedWallhackCSharp
             foreach (Block block in this.Maze)
             {
                 GL.PushMatrix();
-                Color floorColour = block.IsExit ? exitColour : (block.IsStart ? startColour : baseFloorColour);
+                Color floorColour = block.IsExit ? exitColour : (block.CurrentState == Block.State.Visited ? startColour : baseFloorColour);
 
                 GL.Translate(this.roomSize * block.PositionX, this.roomSize * -block.PositionY, 0.0);
                 GL.Scale(this.roomSize / 2, this.roomSize / 2, 1.0);

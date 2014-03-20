@@ -292,7 +292,21 @@ namespace BeardedWallhackCSharp
                         return null;
                     });
 
-            LuaRuntime.Run(this.scintilla1.Text, luaInterface);
+            luaInterface.Register(
+                "canSeeWall",
+                delegate
+                {
+                    return ObjectToLua.ToLuaValue(this.turtle.CanSeeWall());
+                });
+
+            try
+            {
+                LuaRuntime.Run(this.scintilla1.Text, luaInterface);
+            }
+            catch (TurtleException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
             this.glControl1.Invalidate();
         }

@@ -170,7 +170,7 @@ namespace BeardedWallhackCSharp
             var walls = new List<KeyValuePair<Wall, Block>>();
             Block startBlock = this.mazeBlocks[0, 0];
 
-            startBlock.IsStart = true;
+            startBlock.CurrentState = Block.State.Visited;
             startBlock.InMaze = true;
 
             if (startBlock.WallTop != null)

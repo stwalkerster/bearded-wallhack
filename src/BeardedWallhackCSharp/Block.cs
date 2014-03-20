@@ -39,12 +39,7 @@ namespace BeardedWallhackCSharp
             /// <summary>
             ///     The visited.
             /// </summary>
-            Visited, 
-
-            /// <summary>
-            ///     The exit.
-            /// </summary>
-            Exit
+            Visited
         }
 
         #endregion
@@ -155,7 +150,20 @@ namespace BeardedWallhackCSharp
         /// </summary>
         public Wall WallTop { get; set; }
 
-        public bool IsStart { get; set; }
+        /// <summary>
+        ///     The _current state.
+        /// </summary>
+        public State CurrentState
+        {
+            get
+            {
+                return this.currentState;
+            }
+            set
+            {
+                this.currentState = value;
+            }
+        }
 
         #endregion
 

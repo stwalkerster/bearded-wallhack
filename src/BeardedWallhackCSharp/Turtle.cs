@@ -59,22 +59,23 @@ namespace BeardedWallhackCSharp
                 if (wall != null && !wall.Present)
                 {
                     this.Block = wall.GetOpposite(this.Block);
+                    this.Block.CurrentState = Block.State.Visited;
                 }
                 else
                 {
-                    return;
+                    throw new TurtleException("I hit a wall!");
                 }
             }
         }
 
         public void TurnLeft()
         {
-            this.Direction = (Maze.Direction)(((int)this.Direction + 1) % 4);
+            this.Direction = (Maze.Direction)(((int)this.Direction - 1 + 4) % 4);
         }
 
         public void TurnRight()
         {
-            this.Direction = (Maze.Direction)(((int)this.Direction - 1 + 4) % 4);
+            this.Direction = (Maze.Direction)(((int)this.Direction + 1) % 4);
         }
 
         public bool CanSeeWall()
