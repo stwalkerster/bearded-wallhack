@@ -48,6 +48,8 @@ namespace BeardedWallhackCSharp
 
         private Turtle turtle;
 
+        private LuaTable luaTable;
+
         #endregion
 
         #region Constructors and Destructors
@@ -266,42 +268,11 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void RunButtonClick(object sender, EventArgs e)
         {
-            LuaTable luaInterface = LuaRuntime.CreateGlobalEnviroment();
-
-            luaInterface.Register(
-                "turnLeft",
-                delegate
-                    {
-                        this.turtle.TurnLeft();
-                        return null;
-                    });            
-            
-            luaInterface.Register(
-                "turnRight",
-                delegate
-                    {
-                        this.turtle.TurnRight();
-                        return null;
-                    });            
-            
-            luaInterface.Register(
-                "goForward",
-                delegate
-                    {
-                        this.turtle.GoForward();
-                        return null;
-                    });
-
-            luaInterface.Register(
-                "canSeeWall",
-                delegate
-                {
-                    return ObjectToLua.ToLuaValue(this.turtle.CanSeeWall());
-                });
+            this.ResetMazeState();
 
             try
             {
-                LuaRuntime.Run(this.scintilla1.Text, luaInterface);
+                LuaRuntime.Run(this.codeEditor.Text, this.GetLuaTable());
             }
             catch (TurtleException ex)
             {
@@ -309,6 +280,62 @@ namespace BeardedWallhackCSharp
             }
 
             this.glControl1.Invalidate();
+        }
+
+        /// <summary>
+        /// The get lua table.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="LuaTable"/>.
+        /// </returns>
+        private LuaTable GetLuaTable()
+        {
+            if (this.luaTable != null)
+            {
+                return this.luaTable;
+            }
+
+            this.luaTable = LuaRuntime.CreateGlobalEnviroment();
+
+            this.luaTable.Register(
+                "turnLeft",
+                delegate
+                    {
+                        this.turtle.TurnLeft();
+                        return null;
+                    });
+
+            this.luaTable.Register(
+                "turnRight",
+                delegate
+                    {
+                        this.turtle.TurnRight();
+                        return null;
+                    });
+
+            this.luaTable.Register(
+                "goForward",
+                delegate
+                    {
+                        this.turtle.GoForward();
+                        return null;
+                    });
+
+            this.luaTable.Register("canSeeWall", delegate { return ObjectToLua.ToLuaValue(this.turtle.CanSeeWall()); });
+            return this.luaTable;
+        }
+
+        /// <summary>
+        /// The reset maze state.
+        /// </summary>
+        private void ResetMazeState()
+        {
+            this.turtle.Block = this.realMaze[0, 0];
+            foreach (var b in this.realMaze)
+            {
+                b.CurrentState = Block.State.Unvisited;
+            }
+            this.turtle.Block.CurrentState = Block.State.Visited;
         }
 
         #endregion

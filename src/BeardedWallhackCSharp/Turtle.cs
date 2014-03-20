@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MazePosition.cs" company="Simon Walker">
+// <copyright file="Turtle.cs" company="Simon Walker">
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -34,9 +34,9 @@ namespace BeardedWallhackCSharp
         #region Public Properties
 
         /// <summary>
-        ///     Gets the block.
+        ///     Gets or sets the block.
         /// </summary>
-        public Block Block { get; private set; }
+        public Block Block { get; set; }
 
         /// <summary>
         ///     Gets the direction.
@@ -45,45 +45,89 @@ namespace BeardedWallhackCSharp
 
         #endregion
 
-        public void GoForward()
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The can see wall.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool CanSeeWall()
         {
-            this.GoForward(1);
+            var wall = this.GetWall(this.Direction);
+            return wall == null || wall.Present;
         }
 
-        public void GoForward(int amount)
+        /// <summary>
+        /// The can see wall.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool CanSeeWallOnLeft()
         {
-            for (int i = amount - 1; i >= 0; i--)
-            {
-                var wall = this.GetWall(this.Direction);
+            var wall = this.GetWall((Maze.Direction)(((int)this.Direction - 1 + 4) % 4));
+            return wall == null || wall.Present;
+        }
 
-                if (wall != null && !wall.Present)
+        /// <summary>
+        /// The can see wall.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool CanSeeWallOnRight()
+        {
+            var wall = this.GetWall((Maze.Direction)(((int)this.Direction + 1) % 4));
+            return wall == null || wall.Present;
+        }
+
+        /// <summary>
+        /// The go forward.
+        /// </summary>
+        /// <exception cref="TurtleException">
+        /// if I hit a wall
+        /// </exception>
+        public void GoForward()
+        {
+            Wall wall = this.GetWall(this.Direction);
+
+            if (wall != null && !wall.Present)
+            {
+                this.Block = wall.GetOpposite(this.Block);
+                this.Block.CurrentState = Block.State.Visited;
+
+                if (this.Block.IsExit)
                 {
-                    this.Block = wall.GetOpposite(this.Block);
-                    this.Block.CurrentState = Block.State.Visited;
+                    throw new TurtleException("NOM NOM NOM!!");
                 }
-                else
-                {
-                    throw new TurtleException("I hit a wall!");
-                }
+            }
+            else
+            {
+                throw new TurtleException("I hit a wall!");
             }
         }
 
+        /// <summary>
+        /// The turn left.
+        /// </summary>
         public void TurnLeft()
         {
             this.Direction = (Maze.Direction)(((int)this.Direction - 1 + 4) % 4);
         }
 
+        /// <summary>
+        /// The turn right.
+        /// </summary>
         public void TurnRight()
         {
             this.Direction = (Maze.Direction)(((int)this.Direction + 1) % 4);
         }
 
-        public bool CanSeeWall()
-        {
-            var wall = this.GetWall(this.Direction);
+        #endregion
 
-            return wall.Present;
-        }
+        #region Methods
 
         /// <summary>
         /// The get wall.
@@ -99,16 +143,18 @@ namespace BeardedWallhackCSharp
             switch (direction)
             {
                 case Maze.Direction.Down:
-                    return Block.WallBottom;
+                    return this.Block.WallBottom;
                 case Maze.Direction.Left:
-                    return Block.WallLeft;
+                    return this.Block.WallLeft;
                 case Maze.Direction.Right:
-                    return Block.WallRight;
+                    return this.Block.WallRight;
                 case Maze.Direction.Up:
-                    return Block.WallTop;
+                    return this.Block.WallTop;
             }
 
             throw new ArgumentOutOfRangeException();
         }
+
+        #endregion
     }
 }

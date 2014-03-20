@@ -31,7 +31,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.scintilla1 = new ScintillaNET.Scintilla();
+            this.codeEditor = new ScintillaNET.Scintilla();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.runButton = new System.Windows.Forms.ToolStripButton();
             this.glControl1 = new OpenTK.GLControl();
@@ -39,7 +39,7 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.codeEditor)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,7 +74,7 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.scintilla1);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.codeEditor);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(442, 213);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(451, 247);
@@ -87,35 +87,38 @@
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
-            // scintilla1
+            // codeEditor
             // 
-            this.scintilla1.ConfigurationManager.Language = "lua";
-            this.scintilla1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scintilla1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scintilla1.Location = new System.Drawing.Point(0, 0);
-            this.scintilla1.Margins.Margin0.Width = 20;
-            this.scintilla1.Name = "scintilla1";
-            this.scintilla1.Size = new System.Drawing.Size(442, 213);
-            this.scintilla1.Styles.BraceBad.FontName = "Verdana\0";
-            this.scintilla1.Styles.BraceBad.Size = 11F;
-            this.scintilla1.Styles.BraceLight.FontName = "Verdana\0";
-            this.scintilla1.Styles.BraceLight.Size = 11F;
-            this.scintilla1.Styles.ControlChar.FontName = "Verdana\0";
-            this.scintilla1.Styles.ControlChar.Size = 11F;
-            this.scintilla1.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
-            this.scintilla1.Styles.Default.FontName = "Verdana\0";
-            this.scintilla1.Styles.Default.Size = 11F;
-            this.scintilla1.Styles.IndentGuide.FontName = "Verdana\0";
-            this.scintilla1.Styles.IndentGuide.Size = 11F;
-            this.scintilla1.Styles.LastPredefined.FontName = "Verdana\0";
-            this.scintilla1.Styles.LastPredefined.Size = 11F;
-            this.scintilla1.Styles.LineNumber.CharacterSet = ScintillaNET.CharacterSet.Ansi;
-            this.scintilla1.Styles.LineNumber.FontName = "Consolas";
-            this.scintilla1.Styles.LineNumber.Size = 11.25F;
-            this.scintilla1.Styles.Max.FontName = "Verdana\0";
-            this.scintilla1.Styles.Max.Size = 11F;
-            this.scintilla1.TabIndex = 0;
-            this.scintilla1.Text = "print(\"Hello World\")";
+            this.codeEditor.AutoComplete.IsCaseSensitive = false;
+            this.codeEditor.AutoComplete.ListString = "turnLeft() turnRight() goForward() canSeeWall() canSeeWallOnLeft() canSeeWallOnRi" +
+    "ght()";
+            this.codeEditor.ConfigurationManager.Language = "lua";
+            this.codeEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.codeEditor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.codeEditor.Location = new System.Drawing.Point(0, 0);
+            this.codeEditor.Margins.Margin0.Width = 20;
+            this.codeEditor.Name = "codeEditor";
+            this.codeEditor.Size = new System.Drawing.Size(442, 213);
+            this.codeEditor.Styles.BraceBad.FontName = "Verdana\0";
+            this.codeEditor.Styles.BraceBad.Size = 11F;
+            this.codeEditor.Styles.BraceLight.FontName = "Verdana\0";
+            this.codeEditor.Styles.BraceLight.Size = 11F;
+            this.codeEditor.Styles.ControlChar.FontName = "Verdana\0";
+            this.codeEditor.Styles.ControlChar.Size = 11F;
+            this.codeEditor.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
+            this.codeEditor.Styles.Default.FontName = "Verdana\0";
+            this.codeEditor.Styles.Default.Size = 11F;
+            this.codeEditor.Styles.IndentGuide.FontName = "Verdana\0";
+            this.codeEditor.Styles.IndentGuide.Size = 11F;
+            this.codeEditor.Styles.LastPredefined.FontName = "Verdana\0";
+            this.codeEditor.Styles.LastPredefined.Size = 11F;
+            this.codeEditor.Styles.LineNumber.CharacterSet = ScintillaNET.CharacterSet.Ansi;
+            this.codeEditor.Styles.LineNumber.FontName = "Consolas";
+            this.codeEditor.Styles.LineNumber.Size = 11.25F;
+            this.codeEditor.Styles.Max.FontName = "Verdana\0";
+            this.codeEditor.Styles.Max.Size = 11F;
+            this.codeEditor.TabIndex = 0;
+            this.codeEditor.Text = "print(\"Hello World\")";
             // 
             // toolStrip1
             // 
@@ -170,7 +173,7 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.codeEditor)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -185,7 +188,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton runButton;
-        private ScintillaNET.Scintilla scintilla1;
+        private ScintillaNET.Scintilla codeEditor;
 
     }
 }
