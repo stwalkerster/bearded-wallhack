@@ -3,23 +3,22 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace BeardedWallhackCSharp
 {
     using System;
     using System.Windows.Forms;
 
     /// <summary>
-    /// The program.
+    ///     The program.
     /// </summary>
     internal static class Program
     {
         #region Static Fields
 
         /// <summary>
-        /// The app.
+        ///     The app.
         /// </summary>
-        public static Form App;
+        private static Form app;
 
         #endregion
 
@@ -34,8 +33,8 @@ namespace BeardedWallhackCSharp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            App = new MainForm();
-            Application.Run(App);
+            app = new MainForm();
+            Application.Run(app);
         }
 
         #endregion

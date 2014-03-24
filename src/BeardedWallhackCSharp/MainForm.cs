@@ -1,14 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainForm.cs" company="">
+// <copyright file="MainForm.cs" company="Simon Walker">
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace BeardedWallhackCSharp
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
@@ -27,7 +28,7 @@ namespace BeardedWallhackCSharp
         #region Fields
 
         /// <summary>
-        ///     The _maze lock.
+        ///     The maze lock.
         /// </summary>
         private readonly object mazeLock = new object();
 
@@ -37,24 +38,26 @@ namespace BeardedWallhackCSharp
         private readonly IMazeRenderer mazeRenderer;
 
         /// <summary>
-        ///     The _real maze.
+        ///     The lua table.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+            Justification = "This is correct.")]
+        private LuaTable luaTable;
+
+        /// <summary>
+        ///     The real maze.
         /// </summary>
         private Maze realMaze;
 
         /// <summary>
-        ///     The _regeneration thread.
+        ///     The regeneration thread.
         /// </summary>
         private Thread regenerationThread;
 
         /// <summary>
-        /// The turtle.
+        ///     The turtle.
         /// </summary>
         private Turtle turtle;
-
-        /// <summary>
-        /// The lua table.
-        /// </summary>
-        private LuaTable luaTable;
 
         #endregion
 
@@ -79,8 +82,17 @@ namespace BeardedWallhackCSharp
         /// </summary>
         private event EventHandler GenerationComplete;
 
+        #endregion
+
+        #region Public Properties
+
         /// <summary>
-        ///     The _real maze.
+        ///     Gets or sets the current level.
+        /// </summary>
+        public int CurrentLevel { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the real maze.
         /// </summary>
         public Maze RealMaze
         {
@@ -104,13 +116,13 @@ namespace BeardedWallhackCSharp
         #region Public Methods and Operators
 
         /// <summary>
-        /// The form 1 key down.
+        ///     The form 1 key down.
         /// </summary>
         /// <param name="sender">
-        /// The sender.
+        ///     The sender.
         /// </param>
         /// <param name="e">
-        /// The e.
+        ///     The e.
         /// </param>
         public void FormOnKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -129,13 +141,13 @@ namespace BeardedWallhackCSharp
         #region Methods
 
         /// <summary>
-        /// The form 1 generation complete.
+        ///     The form 1 generation complete.
         /// </summary>
         /// <param name="sender">
-        /// The sender.
+        ///     The sender.
         /// </param>
         /// <param name="e">
-        /// The e.
+        ///     The e.
         /// </param>
         private void Form1GenerationComplete(object sender, EventArgs e)
         {
@@ -153,13 +165,13 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The form 1 form closing.
+        ///     The form 1 form closing.
         /// </summary>
         /// <param name="sender">
-        /// The sender.
+        ///     The sender.
         /// </param>
         /// <param name="e">
-        /// The e.
+        ///     The e.
         /// </param>
         private void FormOnFormClosing(object sender, FormClosingEventArgs e)
         {
@@ -167,13 +179,13 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The form 1 load.
+        ///     The form 1 load.
         /// </summary>
         /// <param name="sender">
-        /// The sender.
+        ///     The sender.
         /// </param>
         /// <param name="e">
-        /// The e.
+        ///     The e.
         /// </param>
         private void FormOnLoad(object sender, EventArgs e)
         {
@@ -189,13 +201,13 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The form 1 resize.
+        ///     The form 1 resize.
         /// </summary>
         /// <param name="sender">
-        /// The sender.
+        ///     The sender.
         /// </param>
         /// <param name="e">
-        /// The e.
+        ///     The e.
         /// </param>
         private void FormOnResize(object sender, EventArgs e)
         {
@@ -219,8 +231,11 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The generate maze.
+        ///     The generate maze.
         /// </summary>
+        /// <param name="resolution">
+        ///     The resolution.
+        /// </param>
         private void GenerateMaze(int resolution)
         {
             this.regenerationThread = new Thread(this.RegenerationThreadDoWork) { Priority = ThreadPriority.Lowest };
@@ -228,108 +243,13 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// Repaint the OpenGL control
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void GlControl1Paint(object sender, PaintEventArgs e)
-        {
-            this.mazeRenderer.Render();
-
-            this.glControl1.SwapBuffers();
-        }
-
-        /// <summary>
-        /// The maze renderer on force redraw required.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void MazeRendererOnForceRedrawRequired(object sender, EventArgs e)
-        {
-            this.glControl1.Invalidate();
-        }
-
-        /// <summary>
-        /// The save maze data.
-        /// </summary>
-        private void SaveMazeData()
-        {
-            string mazeData;
-
-            lock (this.mazeLock)
-            {
-                var bf = new BinaryFormatter();
-                var s = new MemoryStream();
-                bf.Serialize(s, this.realMaze);
-                s.Position = 0;
-                var bytes = new byte[s.Length];
-                s.Read(bytes, 0, bytes.Length);
-                
-                mazeData = Convert.ToBase64String(bytes);
-            }
-
-            Clipboard.SetText(mazeData);
-        }
-
-        /// <summary>
-        /// The regeneration thread_ do work.
-        /// </summary>
-        /// <param name="startData">
-        /// The start data.
-        /// </param>
-        private void RegenerationThreadDoWork(object startData)
-        {
-            var data = (int)startData;
-
-            var maze = new Maze(data, data);
-
-            lock (this.mazeLock)
-            {
-                this.RealMaze = maze;
-            }
-
-            this.GenerationComplete(this, new EventArgs());
-        }
-
-        /// <summary>
-        /// The run button click.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void RunButtonClick(object sender, EventArgs e)
-        {
-            this.ResetMazeState();
-
-            try
-            {
-                LuaRuntime.Run(this.codeEditor.Text, this.GetLuaTable());
-            }
-            catch (TurtleException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            this.glControl1.Invalidate();
-        }
-
-        /// <summary>
-        /// The get lua table.
+        ///     The get lua table.
         /// </summary>
         /// <returns>
-        /// The <see cref="LuaTable"/>.
+        ///     The <see cref="LuaTable" />.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+            Justification = "Correct spelling.")]
         private LuaTable GetLuaTable()
         {
             if (this.luaTable != null)
@@ -368,63 +288,35 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The reset maze state.
-        /// </summary>
-        private void ResetMazeState()
-        {
-            this.turtle.Direction = Maze.Direction.Down;
-            
-            this.turtle.Block = this.RealMaze.MazeBlocks[0, 0];
-            foreach (var b in this.RealMaze.MazeBlocks)
-            {
-                b.CurrentState = Block.State.Unvisited;
-            }
-
-            this.turtle.Block.CurrentState = Block.State.Visited;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// The tool strip button 1 click.
+        ///     Repaint the OpenGL control
         /// </summary>
         /// <param name="sender">
-        /// The sender.
+        ///     The sender.
         /// </param>
         /// <param name="e">
-        /// The e.
+        ///     The e.
         /// </param>
-        private void ToolStripButton1Click(object sender, EventArgs e)
+        private void GlControl1Paint(object sender, PaintEventArgs e)
         {
-            this.SaveMazeData();
+            this.mazeRenderer.Render();
+
+            this.glControl1.SwapBuffers();
         }
 
         /// <summary>
-        /// The load level data
+        ///     The load level.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ToolStripButton2Click(object sender, EventArgs e)
-        {
-            this.LoadLevel();
-            this.CurrentLevel++;
-        }
-
         private void LoadLevel()
         {
-            var manifestResourceStream =
+            Stream manifestResourceStream =
                 Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("BeardedWallhackCSharp.LevelData.Level" + this.CurrentLevel + ".dat");
 
             if (manifestResourceStream != null)
             {
-                var mazeData = new StreamReader(manifestResourceStream).ReadToEnd();
+                string mazeData = new StreamReader(manifestResourceStream).ReadToEnd();
 
-                var bytes = Convert.FromBase64String(mazeData);
+                byte[] bytes = Convert.FromBase64String(mazeData);
                 var bf = new BinaryFormatter();
                 var s = new MemoryStream(bytes) { Position = 0 };
                 var maze = (Maze)bf.Deserialize(s);
@@ -443,8 +335,131 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// Gets or sets the current level.
+        ///     The maze renderer on force redraw required.
         /// </summary>
-        public int CurrentLevel { get; set; }
+        /// <param name="sender">
+        ///     The sender.
+        /// </param>
+        /// <param name="e">
+        ///     The e.
+        /// </param>
+        private void MazeRendererOnForceRedrawRequired(object sender, EventArgs e)
+        {
+            this.glControl1.Invalidate();
+        }
+
+        /// <summary>
+        ///     The regeneration thread_ do work.
+        /// </summary>
+        /// <param name="startData">
+        ///     The start data.
+        /// </param>
+        private void RegenerationThreadDoWork(object startData)
+        {
+            var data = (int)startData;
+
+            var maze = new Maze(data, data);
+
+            lock (this.mazeLock)
+            {
+                this.RealMaze = maze;
+            }
+
+            this.GenerationComplete(this, new EventArgs());
+        }
+
+        /// <summary>
+        ///     The reset maze state.
+        /// </summary>
+        private void ResetMazeState()
+        {
+            this.turtle.Direction = Maze.Direction.Down;
+
+            this.turtle.Block = this.RealMaze.MazeBlocks[0, 0];
+            foreach (Block b in this.RealMaze.MazeBlocks)
+            {
+                b.CurrentState = Block.State.Unvisited;
+            }
+
+            this.turtle.Block.CurrentState = Block.State.Visited;
+        }
+
+        /// <summary>
+        ///     The run button click.
+        /// </summary>
+        /// <param name="sender">
+        ///     The sender.
+        /// </param>
+        /// <param name="e">
+        ///     The e.
+        /// </param>
+        private void RunButtonClick(object sender, EventArgs e)
+        {
+            this.ResetMazeState();
+
+            try
+            {
+                LuaRuntime.Run(this.codeEditor.Text, this.GetLuaTable());
+            }
+            catch (TurtleException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            this.glControl1.Invalidate();
+        }
+
+        /// <summary>
+        ///     The save maze data.
+        /// </summary>
+        private void SaveMazeData()
+        {
+            string mazeData;
+
+            lock (this.mazeLock)
+            {
+                var bf = new BinaryFormatter();
+                var s = new MemoryStream();
+                bf.Serialize(s, this.realMaze);
+                s.Position = 0;
+                var bytes = new byte[s.Length];
+                s.Read(bytes, 0, bytes.Length);
+
+                mazeData = Convert.ToBase64String(bytes);
+            }
+
+            Clipboard.SetText(mazeData);
+        }
+
+        /// <summary>
+        ///     The tool strip button 1 click.
+        /// </summary>
+        /// <param name="sender">
+        ///     The sender.
+        /// </param>
+        /// <param name="e">
+        ///     The e.
+        /// </param>
+        private void ToolStripButton1Click(object sender, EventArgs e)
+        {
+            this.SaveMazeData();
+        }
+
+        /// <summary>
+        ///     The load level data
+        /// </summary>
+        /// <param name="sender">
+        ///     The sender.
+        /// </param>
+        /// <param name="e">
+        ///     The e.
+        /// </param>
+        private void ToolStripButton2Click(object sender, EventArgs e)
+        {
+            this.LoadLevel();
+            this.CurrentLevel++;
+        }
+
+        #endregion
     }
 }

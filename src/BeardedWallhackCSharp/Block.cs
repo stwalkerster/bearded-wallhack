@@ -50,6 +50,22 @@ namespace BeardedWallhackCSharp
         #region Public Properties
 
         /// <summary>
+        ///     Gets or sets the current state.
+        /// </summary>
+        public State CurrentState
+        {
+            get
+            {
+                return this.currentState;
+            }
+
+            set
+            {
+                this.currentState = value;
+            }
+        }
+
+        /// <summary>
         ///     Gets a value indicating whether exit bottom.
         /// </summary>
         public bool ExitBottom
@@ -119,17 +135,17 @@ namespace BeardedWallhackCSharp
         public bool InMaze { get; set; }
 
         /// <summary>
-        ///     The is exit.
+        ///     Gets or sets a value indicating whether this block is the maze exit.
         /// </summary>
         public bool IsExit { get; set; }
 
         /// <summary>
-        ///     The position x.
+        ///     Gets or sets the position x.
         /// </summary>
         public int PositionX { get; set; }
 
         /// <summary>
-        ///     The position y.
+        ///     Gets or sets the position y.
         /// </summary>
         public int PositionY { get; set; }
 
@@ -152,22 +168,6 @@ namespace BeardedWallhackCSharp
         ///     Gets or sets the wall top.
         /// </summary>
         public Wall WallTop { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the current state.
-        /// </summary>
-        public State CurrentState
-        {
-            get
-            {
-                return this.currentState;
-            }
-
-            set
-            {
-                this.currentState = value;
-            }
-        }
 
         #endregion
 

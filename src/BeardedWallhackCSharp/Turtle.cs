@@ -12,6 +12,15 @@ namespace BeardedWallhackCSharp
     /// </summary>
     public class Turtle
     {
+        #region Fields
+
+        /// <summary>
+        ///     The fuel.
+        /// </summary>
+        private int fuel = 100000;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -43,32 +52,27 @@ namespace BeardedWallhackCSharp
         /// </summary>
         public Maze.Direction Direction { get; set; }
 
-        /// <summary>
-        /// The fuel.
-        /// </summary>
-        private int fuel = 100000;
-
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
-        /// The can see wall.
+        ///     The can see wall.
         /// </summary>
         /// <returns>
-        /// The <see cref="bool"/>.
+        ///     The <see cref="bool" />.
         /// </returns>
         public bool CanSeeWall()
         {
-            var wall = this.GetWall(this.Direction);
+            Wall wall = this.GetWall(this.Direction);
             return wall == null || wall.Present;
         }
 
         /// <summary>
-        /// The go forward.
+        ///     The go forward.
         /// </summary>
         /// <exception cref="TurtleException">
-        /// if I hit a wall
+        ///     if I hit a wall
         /// </exception>
         public void GoForward()
         {
@@ -78,7 +82,7 @@ namespace BeardedWallhackCSharp
             {
                 if (this.fuel <= 0)
                 {
-                    throw new TurtleException("I'm too tired to go any further!");    
+                    throw new TurtleException("I'm too tired to go any further!");
                 }
 
                 this.Block = wall.GetOpposite(this.Block);
@@ -98,7 +102,7 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The turn left.
+        ///     The turn left.
         /// </summary>
         public void TurnLeft()
         {
@@ -113,7 +117,7 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The turn right.
+        ///     The turn right.
         /// </summary>
         public void TurnRight()
         {

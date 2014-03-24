@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MazeRenderer.cs" company="">
+// <copyright file="MazeRenderer.cs" company="Simon Walker">
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -24,14 +24,14 @@ namespace BeardedWallhackCSharp
         private Maze maze;
 
         /// <summary>
-        /// The position.
-        /// </summary>
-        private Turtle turtle;
-
-        /// <summary>
         ///     The room size.
         /// </summary>
         private double roomSize = 1.0;
+
+        /// <summary>
+        ///     The position.
+        /// </summary>
+        private Turtle turtle;
 
         #endregion
 
@@ -164,7 +164,6 @@ namespace BeardedWallhackCSharp
                     floorColour = baseFloorColour;
                 }
 
-
                 GL.Translate(this.roomSize * block.PositionX, this.roomSize * -block.PositionY, 0.0);
                 GL.Scale(this.roomSize / 2, this.roomSize / 2, 1.0);
 
@@ -248,8 +247,8 @@ namespace BeardedWallhackCSharp
                 GL.PushMatrix();
 
                 GL.Translate(
-                    this.roomSize * this.Turtle.Block.PositionX,
-                    this.roomSize * -this.Turtle.Block.PositionY,
+                    this.roomSize * this.Turtle.Block.PositionX, 
+                    this.roomSize * -this.Turtle.Block.PositionY, 
                     0.0);
                 GL.Scale(this.roomSize / 2, this.roomSize / 2, 1.0);
 
@@ -261,15 +260,19 @@ namespace BeardedWallhackCSharp
             GL.PopMatrix();
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
-        /// The render turtle.
+        ///     The render turtle.
         /// </summary>
         private void RenderTurtle()
         {
             GL.Begin(PrimitiveType.Triangles);
 
             GL.Color3(Color.Blue);
-            
+
             if (this.Turtle.Direction == Maze.Direction.Right)
             {
                 GL.Vertex2(-0.3, 0.6);

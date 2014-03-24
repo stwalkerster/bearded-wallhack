@@ -3,14 +3,13 @@
 //   Simon Walker
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace BeardedWallhackCSharp
 {
     using System;
     using System.Collections.Generic;
 
     /// <summary>
-    /// The maze.
+    ///     The maze.
     /// </summary>
     [Serializable]
     public class Maze
@@ -18,7 +17,7 @@ namespace BeardedWallhackCSharp
         #region Fields
 
         /// <summary>
-        /// The maze blocks.
+        ///     The maze blocks.
         /// </summary>
         private Block[,] mazeBlocks;
 
@@ -44,7 +43,7 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Maze"/> class.
+        ///     Initialises a new instance of the <see cref="Maze" /> class.
         /// </summary>
         public Maze()
         {
@@ -55,27 +54,27 @@ namespace BeardedWallhackCSharp
         #region Enums
 
         /// <summary>
-        /// The direction.
+        ///     The direction.
         /// </summary>
         public enum Direction
         {
             /// <summary>
-            /// The left.
+            ///     The left.
             /// </summary>
             Left = 3, 
 
             /// <summary>
-            /// The right.
+            ///     The right.
             /// </summary>
             Right = 1, 
 
             /// <summary>
-            /// The down.
+            ///     The down.
             /// </summary>
             Down = 2, 
 
             /// <summary>
-            /// The up.
+            ///     The up.
             /// </summary>
             Up = 0, 
         }
@@ -85,27 +84,22 @@ namespace BeardedWallhackCSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the height.
-        /// </summary>
-        public int Height { get; private set; }
-
-        /// <summary>
-        /// Gets the width.
-        /// </summary>
-        public int Width { get; private set; }
-
-        /// <summary>
-        /// Gets the current block.
+        ///     Gets the current block.
         /// </summary>
         public Block CurrentBlock { get; private set; }
 
         /// <summary>
-        /// Gets or sets the exit block.
+        ///     Gets or sets the exit block.
         /// </summary>
         public Block ExitBlock { get; set; }
 
         /// <summary>
-        /// Gets the maze blocks.
+        ///     Gets the height.
+        /// </summary>
+        public int Height { get; private set; }
+
+        /// <summary>
+        ///     Gets the maze blocks.
         /// </summary>
         public Block[,] MazeBlocks
         {
@@ -115,12 +109,17 @@ namespace BeardedWallhackCSharp
             }
         }
 
+        /// <summary>
+        ///     Gets the width.
+        /// </summary>
+        public int Width { get; private set; }
+
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// The generate.
+        ///     The generate.
         /// </summary>
         private void Generate()
         {
