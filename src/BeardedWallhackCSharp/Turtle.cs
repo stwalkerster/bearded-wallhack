@@ -43,6 +43,11 @@ namespace BeardedWallhackCSharp
         /// </summary>
         public Maze.Direction Direction { get; set; }
 
+        /// <summary>
+        /// The fuel.
+        /// </summary>
+        private int fuel = 100000;
+
         #endregion
 
         #region Public Methods and Operators
@@ -60,30 +65,6 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
-        /// The can see wall.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool CanSeeWallOnLeft()
-        {
-            var wall = this.GetWall((Maze.Direction)(((int)this.Direction - 1 + 4) % 4));
-            return wall == null || wall.Present;
-        }
-
-        /// <summary>
-        /// The can see wall.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool CanSeeWallOnRight()
-        {
-            var wall = this.GetWall((Maze.Direction)(((int)this.Direction + 1) % 4));
-            return wall == null || wall.Present;
-        }
-
-        /// <summary>
         /// The go forward.
         /// </summary>
         /// <exception cref="TurtleException">
@@ -95,6 +76,11 @@ namespace BeardedWallhackCSharp
 
             if (wall != null && !wall.Present)
             {
+                if (this.fuel <= 0)
+                {
+                    throw new TurtleException("I'm too tired to go any further!");    
+                }
+
                 this.Block = wall.GetOpposite(this.Block);
                 this.Block.CurrentState = Block.State.Visited;
 
@@ -102,6 +88,8 @@ namespace BeardedWallhackCSharp
                 {
                     throw new TurtleException("NOM NOM NOM!!");
                 }
+
+                this.fuel--;
             }
             else
             {
@@ -114,6 +102,13 @@ namespace BeardedWallhackCSharp
         /// </summary>
         public void TurnLeft()
         {
+            if (this.fuel <= 0)
+            {
+                throw new TurtleException("I'm too tired to go any further!");
+            }
+
+            this.fuel--;
+
             this.Direction = (Maze.Direction)(((int)this.Direction - 1 + 4) % 4);
         }
 
@@ -122,6 +117,13 @@ namespace BeardedWallhackCSharp
         /// </summary>
         public void TurnRight()
         {
+            if (this.fuel <= 0)
+            {
+                throw new TurtleException("I'm too tired to go any further!");
+            }
+
+            this.fuel--;
+
             this.Direction = (Maze.Direction)(((int)this.Direction + 1) % 4);
         }
 
