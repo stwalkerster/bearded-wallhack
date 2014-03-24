@@ -9,11 +9,10 @@ namespace BeardedWallhackCSharp
     using System;
     using System.Collections.Generic;
 
-    using Newtonsoft.Json;
-
     /// <summary>
     /// The maze.
     /// </summary>
+    [Serializable]
     public class Maze
     {
         #region Fields
@@ -44,6 +43,9 @@ namespace BeardedWallhackCSharp
             this.Generate();
         }
 
+        /// <summary>
+        /// Initialises a new instance of the <see cref="Maze"/> class.
+        /// </summary>
         public Maze()
         {
         }
@@ -105,36 +107,11 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// Gets the maze blocks.
         /// </summary>
-        [JsonProperty(Order = -2)]
         public Block[,] MazeBlocks
         {
             get
             {
                 return this.mazeBlocks;
-            }
-        }
-
-        #endregion
-
-        #region Public Indexers
-
-        /// <summary>
-        /// The this.
-        /// </summary>
-        /// <param name="x">
-        /// The x.
-        /// </param>
-        /// <param name="y">
-        /// The y.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Block"/>.
-        /// </returns>
-        public Block this[int x, int y]
-        {
-            get
-            {
-                return this.MazeBlocks[x, y];
             }
         }
 

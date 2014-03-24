@@ -7,14 +7,14 @@ namespace BeardedWallhackCSharp
 {
     using System;
     using System.Drawing;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
     using System.Windows.Forms;
 
     using BeardedWallhackCSharp.Properties;
-
-    using Newtonsoft.Json;
 
     using OpenTK.Graphics.OpenGL;
 
@@ -70,6 +70,9 @@ namespace BeardedWallhackCSharp
             this.InitializeComponent();
             this.mazeRenderer = new MazeRenderer(null, null);
             this.mazeRenderer.ForceRedrawRequired += this.MazeRendererOnForceRedrawRequired;
+
+            this.CurrentLevel = 1;
+            this.LoadLevel();
         }
 
         #endregion
@@ -149,7 +152,7 @@ namespace BeardedWallhackCSharp
             }
 
             this.mazeRenderer.Maze = this.RealMaze;
-            this.turtle = new Turtle(this.RealMaze[0, 0], Maze.Direction.Down);
+            this.turtle = new Turtle(this.RealMaze.MazeBlocks[0, 0], Maze.Direction.Down);
             this.mazeRenderer.Turtle = this.turtle;
             this.glControl1.Invalidate();
         }
@@ -272,10 +275,14 @@ namespace BeardedWallhackCSharp
 
             lock (this.mazeLock)
             {
-                mazeData = JsonConvert.SerializeObject(
-                    this.RealMaze,
-                    Formatting.Indented,
-                    new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
+                var bf = new BinaryFormatter();
+                var s = new MemoryStream();
+                bf.Serialize(s, this.realMaze);
+                s.Position = 0;
+                var bytes = new byte[s.Length];
+                s.Read(bytes, 0, bytes.Length);
+                
+                mazeData = Convert.ToBase64String(bytes);
             }
 
             Clipboard.SetText(mazeData);
@@ -376,7 +383,7 @@ namespace BeardedWallhackCSharp
         {
             this.turtle.Direction = Maze.Direction.Down;
             
-            this.turtle.Block = this.RealMaze[0, 0];
+            this.turtle.Block = this.RealMaze.MazeBlocks[0, 0];
             foreach (var b in this.RealMaze.MazeBlocks)
             {
                 b.CurrentState = Block.State.Unvisited;
@@ -412,12 +419,24 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void ToolStripButton2Click(object sender, EventArgs e)
         {
-            var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BeardedWallhackCSharp.LevelData.Level1.json");
+            this.LoadLevel();
+            this.CurrentLevel++;
+        }
+
+        private void LoadLevel()
+        {
+            var manifestResourceStream =
+                Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("BeardedWallhackCSharp.LevelData.Level" + this.CurrentLevel + ".dat");
 
             if (manifestResourceStream != null)
             {
-                var levelString = new System.IO.StreamReader(manifestResourceStream).ReadToEnd();
-                var maze = JsonConvert.DeserializeObject<Maze>(levelString);
+                var mazeData = new StreamReader(manifestResourceStream).ReadToEnd();
+
+                var bytes = Convert.FromBase64String(mazeData);
+                var bf = new BinaryFormatter();
+                var s = new MemoryStream(bytes) { Position = 0 };
+                var maze = (Maze)bf.Deserialize(s);
 
                 lock (this.mazeLock)
                 {
@@ -425,5 +444,10 @@ namespace BeardedWallhackCSharp
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the current level.
+        /// </summary>
+        public int CurrentLevel { get; set; }
     }
 }

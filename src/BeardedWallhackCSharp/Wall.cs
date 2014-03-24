@@ -5,9 +5,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace BeardedWallhackCSharp
 {
+    using System;
+
     /// <summary>
     ///     The wall.
     /// </summary>
+    [Serializable]
     public class Wall
     {
         #region Fields
