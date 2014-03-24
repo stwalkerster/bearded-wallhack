@@ -7,14 +7,12 @@
 namespace BeardedWallhackCSharp
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// The maze.
     /// </summary>
-    public class Maze : IEnumerable<Block>
+    public class Maze
     {
         #region Fields
 
@@ -101,9 +99,15 @@ namespace BeardedWallhackCSharp
         public Block ExitBlock { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether is solved.
+        /// Gets the maze blocks.
         /// </summary>
-        public bool IsSolved { get; private set; }
+        public Block[,] MazeBlocks
+        {
+            get
+            {
+                return this.mazeBlocks;
+            }
+        }
 
         #endregion
 
@@ -125,7 +129,7 @@ namespace BeardedWallhackCSharp
         {
             get
             {
-                return this.mazeBlocks[x, y];
+                return this.MazeBlocks[x, y];
             }
         }
 
@@ -144,31 +148,31 @@ namespace BeardedWallhackCSharp
             {
                 for (int y = 0; y < this.Height; y++)
                 {
-                    this.mazeBlocks[x, y] = new Block();
+                    this.MazeBlocks[x, y] = new Block();
 
-                    this.mazeBlocks[x, y].PositionX = x;
-                    this.mazeBlocks[x, y].PositionY = y;
+                    this.MazeBlocks[x, y].PositionX = x;
+                    this.MazeBlocks[x, y].PositionY = y;
 
                     Wall w;
 
                     if (x != 0)
                     {
-                        w = new Wall(this.mazeBlocks[x, y], this.mazeBlocks[x - 1, y], true);
-                        this.mazeBlocks[x, y].WallLeft = w;
-                        this.mazeBlocks[x - 1, y].WallRight = w;
+                        w = new Wall(this.MazeBlocks[x, y], this.MazeBlocks[x - 1, y], true);
+                        this.MazeBlocks[x, y].WallLeft = w;
+                        this.MazeBlocks[x - 1, y].WallRight = w;
                     }
 
                     if (y != 0)
                     {
-                        w = new Wall(this.mazeBlocks[x, y], this.mazeBlocks[x, y - 1], true);
-                        this.mazeBlocks[x, y].WallTop = w;
-                        this.mazeBlocks[x, y - 1].WallBottom = w;
+                        w = new Wall(this.MazeBlocks[x, y], this.MazeBlocks[x, y - 1], true);
+                        this.MazeBlocks[x, y].WallTop = w;
+                        this.MazeBlocks[x, y - 1].WallBottom = w;
                     }
                 }
             }
 
             var walls = new List<KeyValuePair<Wall, Block>>();
-            Block startBlock = this.mazeBlocks[0, 0];
+            Block startBlock = this.MazeBlocks[0, 0];
 
             startBlock.CurrentState = Block.State.Visited;
             startBlock.InMaze = true;
@@ -237,22 +241,12 @@ namespace BeardedWallhackCSharp
                 walls.RemoveAt(wallId);
             }
 
-            this.ExitBlock = this.mazeBlocks[this.Width - 1, this.Height - 1];
+            this.ExitBlock = this.MazeBlocks[this.Width - 1, this.Height - 1];
             this.ExitBlock.IsExit = true;
 
             this.CurrentBlock = startBlock;
         }
 
         #endregion
-
-        public IEnumerator<Block> GetEnumerator()
-        {
-            return this.mazeBlocks.Cast<Block>().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.mazeBlocks.GetEnumerator();
-        }
     }
 }

@@ -125,6 +125,11 @@ namespace BeardedWallhackCSharp
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            if (this.maze == null)
+            {
+                return;
+            }
+
             const double CellWallWidth = 0.2;
             const double WallPosition = 1 - CellWallWidth;
 
@@ -137,7 +142,7 @@ namespace BeardedWallhackCSharp
             GL.Translate(this.roomSize / 2, -this.roomSize / 2, 0.0);
             GL.Translate(-1, 1, 0.0);
 
-            foreach (Block block in this.Maze)
+            foreach (Block block in this.Maze.MazeBlocks)
             {
                 GL.PushMatrix();
                 Color floorColour = block.IsExit ? exitColour : (block.CurrentState == Block.State.Visited ? startColour : baseFloorColour);

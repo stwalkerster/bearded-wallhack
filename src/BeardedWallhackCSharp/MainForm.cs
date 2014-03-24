@@ -6,13 +6,14 @@
 namespace BeardedWallhackCSharp
 {
     using System;
-    using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
 
     using BeardedWallhackCSharp.Properties;
+
+    using Newtonsoft.Json;
 
     using OpenTK.Graphics.OpenGL;
 
@@ -238,6 +239,24 @@ namespace BeardedWallhackCSharp
         }
 
         /// <summary>
+        /// The save maze data.
+        /// </summary>
+        private void SaveMazeData()
+        {
+            string mazeData;
+
+            lock (this.mazeLock)
+            {
+                mazeData = JsonConvert.SerializeObject(
+                    this.realMaze,
+                    Formatting.Indented,
+                    new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
+            }
+
+            Clipboard.SetText(mazeData);
+        }
+
+        /// <summary>
         /// The regeneration thread_ do work.
         /// </summary>
         /// <param name="startData">
@@ -333,13 +352,28 @@ namespace BeardedWallhackCSharp
             this.turtle.Direction = Maze.Direction.Down;
             
             this.turtle.Block = this.realMaze[0, 0];
-            foreach (var b in this.realMaze)
+            foreach (var b in this.realMaze.MazeBlocks)
             {
                 b.CurrentState = Block.State.Unvisited;
             }
+
             this.turtle.Block.CurrentState = Block.State.Visited;
         }
 
         #endregion
+
+        /// <summary>
+        /// The tool strip button 1 click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ToolStripButton1Click(object sender, EventArgs e)
+        {
+            this.SaveMazeData();
+        }
     }
 }

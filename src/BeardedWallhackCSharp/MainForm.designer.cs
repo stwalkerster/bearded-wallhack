@@ -33,8 +33,9 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.codeEditor = new ScintillaNET.Scintilla();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.runButton = new System.Windows.Forms.ToolStripButton();
             this.glControl1 = new OpenTK.GLControl();
+            this.runButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -125,21 +126,13 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runButton});
+            this.runButton,
+            this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(442, 25);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 0;
-            // 
-            // runButton
-            // 
-            this.runButton.Image = global::BeardedWallhackCSharp.Properties.Resources.FormRunHS;
-            this.runButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(48, 22);
-            this.runButton.Text = "&Run";
-            this.runButton.Click += new System.EventHandler(this.RunButtonClick);
             // 
             // glControl1
             // 
@@ -153,6 +146,24 @@
             this.glControl1.TabIndex = 0;
             this.glControl1.VSync = false;
             this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.GlControl1Paint);
+            // 
+            // runButton
+            // 
+            this.runButton.Image = global::BeardedWallhackCSharp.Properties.Resources.FormRunHS;
+            this.runButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.runButton.Name = "runButton";
+            this.runButton.Size = new System.Drawing.Size(48, 22);
+            this.runButton.Text = "&Run";
+            this.runButton.Click += new System.EventHandler(this.RunButtonClick);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = global::BeardedWallhackCSharp.Properties.Resources.CopyHS;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(86, 22);
+            this.toolStripButton1.Text = "Copy Maze";
+            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1Click);
             // 
             // MainForm
             // 
@@ -189,6 +200,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton runButton;
         private ScintillaNET.Scintilla codeEditor;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
 
     }
 }
