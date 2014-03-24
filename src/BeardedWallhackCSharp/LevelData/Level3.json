@@ -1,0 +1,128 @@
+﻿{
+  "$id": "1",
+  "MazeBlocks": {
+    "$id": "2",
+    "$values": [
+      [
+        {
+          "$id": "3",
+          "ExitBottom": true,
+          "ExitLeft": false,
+          "ExitRight": true,
+          "ExitTop": false,
+          "InMaze": true,
+          "IsExit": false,
+          "PositionX": 0,
+          "PositionY": 0,
+          "WallBottom": {
+            "$id": "4",
+            "A": {
+              "$id": "5",
+              "ExitBottom": false,
+              "ExitLeft": false,
+              "ExitRight": false,
+              "ExitTop": false,
+              "InMaze": false,
+              "IsExit": false,
+              "PositionX": 0,
+              "PositionY": 1,
+              "WallBottom": null,
+              "WallLeft": null,
+              "WallRight": {
+                "$id": "6",
+                "A": {
+                  "$id": "7",
+                  "ExitBottom": false,
+                  "ExitLeft": false,
+                  "ExitRight": false,
+                  "ExitTop": true,
+                  "InMaze": true,
+                  "IsExit": true,
+                  "PositionX": 1,
+                  "PositionY": 1,
+                  "WallBottom": null,
+                  "WallLeft": {
+                    "$ref": "6"
+                  },
+                  "WallRight": null,
+                  "WallTop": {
+                    "$id": "8",
+                    "A": {
+                      "$ref": "7"
+                    },
+                    "B": {
+                      "$id": "9",
+                      "ExitBottom": true,
+                      "ExitLeft": true,
+                      "ExitRight": false,
+                      "ExitTop": false,
+                      "InMaze": true,
+                      "IsExit": false,
+                      "PositionX": 1,
+                      "PositionY": 0,
+                      "WallBottom": {
+                        "$ref": "8"
+                      },
+                      "WallLeft": {
+                        "$id": "10",
+                        "A": {
+                          "$ref": "9"
+                        },
+                        "B": {
+                          "$ref": "3"
+                        },
+                        "Present": false
+                      },
+                      "WallRight": null,
+                      "WallTop": null,
+                      "CurrentState": 0
+                    },
+                    "Present": false
+                  },
+                  "CurrentState": 0
+                },
+                "B": {
+                  "$ref": "5"
+                },
+                "Present": true
+              },
+              "WallTop": {
+                "$ref": "4"
+              },
+              "CurrentState": 0
+            },
+            "B": {
+              "$ref": "3"
+            },
+            "Present": true
+          },
+          "WallLeft": null,
+          "WallRight": {
+            "$ref": "10"
+          },
+          "WallTop": null,
+          "CurrentState": 2
+        },
+        {
+          "$ref": "5"
+        }
+      ],
+      [
+        {
+          "$ref": "9"
+        },
+        {
+          "$ref": "7"
+        }
+      ]
+    ]
+  },
+  "Height": 2,
+  "Width": 2,
+  "CurrentBlock": {
+    "$ref": "3"
+  },
+  "ExitBlock": {
+    "$ref": "7"
+  }
+}

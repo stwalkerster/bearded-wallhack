@@ -1,0 +1,142 @@
+﻿{
+    "$id": "1",
+    "Height": 5,
+    "Width": 1,
+    "CurrentBlock": {
+        "$id": "2",
+        "ExitBottom": true,
+        "ExitLeft": false,
+        "ExitRight": false,
+        "ExitTop": false,
+        "InMaze": true,
+        "IsExit": false,
+        "PositionX": 0,
+        "PositionY": 0,
+        "WallBottom": {
+            "$id": "3",
+            "A": {
+                "$id": "4",
+                "ExitBottom": true,
+                "ExitLeft": false,
+                "ExitRight": false,
+                "ExitTop": true,
+                "InMaze": true,
+                "IsExit": false,
+                "PositionX": 0,
+                "PositionY": 1,
+                "WallBottom": {
+                    "$id": "5",
+                    "A": {
+                        "$id": "6",
+                        "ExitBottom": true,
+                        "ExitLeft": false,
+                        "ExitRight": false,
+                        "ExitTop": true,
+                        "InMaze": true,
+                        "IsExit": false,
+                        "PositionX": 0,
+                        "PositionY": 2,
+                        "WallBottom": {
+                            "$id": "7",
+                            "A": {
+                                "$id": "8",
+                                "ExitBottom": true,
+                                "ExitLeft": false,
+                                "ExitRight": false,
+                                "ExitTop": true,
+                                "InMaze": true,
+                                "IsExit": false,
+                                "PositionX": 0,
+                                "PositionY": 3,
+                                "WallBottom": {
+                                    "$id": "9",
+                                    "A": {
+                                        "$id": "10",
+                                        "ExitBottom": false,
+                                        "ExitLeft": false,
+                                        "ExitRight": false,
+                                        "ExitTop": true,
+                                        "InMaze": true,
+                                        "IsExit": true,
+                                        "PositionX": 0,
+                                        "PositionY": 4,
+                                        "WallBottom": null,
+                                        "WallLeft": null,
+                                        "WallRight": null,
+                                        "WallTop": {
+                                            "$ref": "9"
+                                        },
+                                      "CurrentState": 0
+                                    },
+                                  "B": {
+                                      "$ref": "8"
+                                  },
+                                  "Present": false
+                                },
+                              "WallLeft": null,
+                              "WallRight": null,
+                              "WallTop": {
+                                  "$ref": "7"
+                              },
+                              "CurrentState": 0
+                            },
+                          "B": {
+                              "$ref": "6"
+                          },
+                          "Present": false
+                        },
+                      "WallLeft": null,
+                      "WallRight": null,
+                      "WallTop": {
+                          "$ref": "5"
+                      },
+                      "CurrentState": 0
+                    },
+                  "B": {
+                      "$ref": "4"
+                  },
+                  "Present": false
+                },
+              "WallLeft": null,
+              "WallRight": null,
+              "WallTop": {
+                  "$ref": "3"
+              },
+              "CurrentState": 0
+            },
+          "B": {
+              "$ref": "2"
+          },
+          "Present": false
+        },
+      "WallLeft": null,
+      "WallRight": null,
+      "WallTop": null,
+      "CurrentState": 2
+    },
+  "ExitBlock": {
+      "$ref": "10"
+  },
+  "MazeBlocks": {
+      "$id": "11",
+      "$values": [
+        [
+          {
+              "$ref": "2"
+          },
+          {
+              "$ref": "4"
+          },
+          {
+              "$ref": "6"
+          },
+          {
+              "$ref": "8"
+          },
+          {
+              "$ref": "10"
+          }
+        ]
+      ]
+  }
+}

@@ -8,6 +8,7 @@ namespace BeardedWallhackCSharp
     using System;
     using System.Drawing;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Windows.Forms;
 
@@ -47,8 +48,14 @@ namespace BeardedWallhackCSharp
         /// </summary>
         private Thread regenerationThread;
 
+        /// <summary>
+        /// The turtle.
+        /// </summary>
         private Turtle turtle;
 
+        /// <summary>
+        /// The lua table.
+        /// </summary>
         private LuaTable luaTable;
 
         #endregion
@@ -73,6 +80,26 @@ namespace BeardedWallhackCSharp
         ///     The generation complete.
         /// </summary>
         private event EventHandler GenerationComplete;
+
+        /// <summary>
+        ///     The _real maze.
+        /// </summary>
+        public Maze RealMaze
+        {
+            get
+            {
+                return this.realMaze;
+            }
+
+            set
+            {
+                this.realMaze = value;
+                if (this.mazeRenderer != null)
+                {
+                    this.mazeRenderer.Maze = value;
+                }
+            }
+        }
 
         #endregion
 
@@ -121,8 +148,8 @@ namespace BeardedWallhackCSharp
                 return;
             }
 
-            this.mazeRenderer.Maze = this.realMaze;
-            this.turtle = new Turtle(this.realMaze[0, 0], Maze.Direction.Down);
+            this.mazeRenderer.Maze = this.RealMaze;
+            this.turtle = new Turtle(this.RealMaze[0, 0], Maze.Direction.Down);
             this.mazeRenderer.Turtle = this.turtle;
             this.glControl1.Invalidate();
         }
@@ -246,7 +273,7 @@ namespace BeardedWallhackCSharp
             lock (this.mazeLock)
             {
                 mazeData = JsonConvert.SerializeObject(
-                    this.realMaze,
+                    this.RealMaze,
                     Formatting.Indented,
                     new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
             }
@@ -268,7 +295,7 @@ namespace BeardedWallhackCSharp
 
             lock (this.mazeLock)
             {
-                this.realMaze = maze;
+                this.RealMaze = maze;
             }
 
             this.GenerationComplete(this, new EventArgs());
@@ -349,8 +376,8 @@ namespace BeardedWallhackCSharp
         {
             this.turtle.Direction = Maze.Direction.Down;
             
-            this.turtle.Block = this.realMaze[0, 0];
-            foreach (var b in this.realMaze.MazeBlocks)
+            this.turtle.Block = this.RealMaze[0, 0];
+            foreach (var b in this.RealMaze.MazeBlocks)
             {
                 b.CurrentState = Block.State.Unvisited;
             }
@@ -372,6 +399,31 @@ namespace BeardedWallhackCSharp
         private void ToolStripButton1Click(object sender, EventArgs e)
         {
             this.SaveMazeData();
+        }
+
+        /// <summary>
+        /// The load level data
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ToolStripButton2Click(object sender, EventArgs e)
+        {
+            var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BeardedWallhackCSharp.LevelData.Level1.json");
+
+            if (manifestResourceStream != null)
+            {
+                var levelString = new System.IO.StreamReader(manifestResourceStream).ReadToEnd();
+                var maze = JsonConvert.DeserializeObject<Maze>(levelString);
+
+                lock (this.mazeLock)
+                {
+                    this.RealMaze = maze;
+                }
+            }
         }
     }
 }

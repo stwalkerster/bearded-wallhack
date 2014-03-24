@@ -114,7 +114,10 @@
       <Link>SciLexer64.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="LevelData\Level3.json" />
+    <EmbeddedResource Include="LevelData\Level2.json" />
     <None Include="Resources\CopyHS.png" />
+    <EmbeddedResource Include="LevelData\Level1.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

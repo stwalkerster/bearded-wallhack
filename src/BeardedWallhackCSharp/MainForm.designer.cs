@@ -28,14 +28,16 @@
         /// </summary>
         private void InitializeComponent( )
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.codeEditor = new ScintillaNET.Scintilla();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.glControl1 = new OpenTK.GLControl();
             this.runButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.glControl1 = new OpenTK.GLControl();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -127,25 +129,13 @@
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runButton,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.toolStripButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(442, 25);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 0;
-            // 
-            // glControl1
-            // 
-            this.glControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.glControl1.BackColor = System.Drawing.Color.Black;
-            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.glControl1.Location = new System.Drawing.Point(3, 3);
-            this.glControl1.Name = "glControl1";
-            this.tableLayoutPanel1.SetRowSpan(this.glControl1, 2);
-            this.glControl1.Size = new System.Drawing.Size(442, 482);
-            this.glControl1.TabIndex = 0;
-            this.glControl1.VSync = false;
-            this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.GlControl1Paint);
             // 
             // runButton
             // 
@@ -164,6 +154,28 @@
             this.toolStripButton1.Size = new System.Drawing.Size(86, 22);
             this.toolStripButton1.Text = "Copy Maze";
             this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1Click);
+            // 
+            // glControl1
+            // 
+            this.glControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.glControl1.BackColor = System.Drawing.Color.Black;
+            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.glControl1.Location = new System.Drawing.Point(3, 3);
+            this.glControl1.Name = "glControl1";
+            this.tableLayoutPanel1.SetRowSpan(this.glControl1, 2);
+            this.glControl1.Size = new System.Drawing.Size(442, 482);
+            this.glControl1.TabIndex = 0;
+            this.glControl1.VSync = false;
+            this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.GlControl1Paint);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(95, 22);
+            this.toolStripButton2.Text = "Open Level 3";
+            this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2Click);
             // 
             // MainForm
             // 
@@ -201,6 +213,7 @@
         private System.Windows.Forms.ToolStripButton runButton;
         private ScintillaNET.Scintilla codeEditor;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
 
     }
 }

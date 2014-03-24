@@ -9,6 +9,8 @@ namespace BeardedWallhackCSharp
     using System;
     using System.Collections.Generic;
 
+    using Newtonsoft.Json;
+
     /// <summary>
     /// The maze.
     /// </summary>
@@ -36,12 +38,14 @@ namespace BeardedWallhackCSharp
         /// </param>
         public Maze(int width, int height)
         {
-            // swapped to fix something 
-            // TODO: locate cause of need for this
             this.Width = width;
             this.Height = height;
 
             this.Generate();
+        }
+
+        public Maze()
+        {
         }
 
         #endregion
@@ -101,6 +105,7 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// Gets the maze blocks.
         /// </summary>
+        [JsonProperty(Order = -2)]
         public Block[,] MazeBlocks
         {
             get
