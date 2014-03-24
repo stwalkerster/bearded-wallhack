@@ -14,8 +14,6 @@ namespace BeardedWallhackCSharp
     using System.Threading;
     using System.Windows.Forms;
 
-    using BeardedWallhackCSharp.Properties;
-
     using OpenTK.Graphics.OpenGL;
 
     using SharpLua;
@@ -70,9 +68,6 @@ namespace BeardedWallhackCSharp
             this.InitializeComponent();
             this.mazeRenderer = new MazeRenderer(null, null);
             this.mazeRenderer.ForceRedrawRequired += this.MazeRendererOnForceRedrawRequired;
-
-            this.CurrentLevel = 1;
-            this.LoadLevel();
         }
 
         #endregion
@@ -168,7 +163,6 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void FormOnFormClosing(object sender, FormClosingEventArgs e)
         {
-            this.regenerationThread.Abort();
             this.mazeRenderer.ForceRedrawRequired -= this.MazeRendererOnForceRedrawRequired;
         }
 
@@ -184,12 +178,14 @@ namespace BeardedWallhackCSharp
         private void FormOnLoad(object sender, EventArgs e)
         {
             this.GenerationComplete += this.Form1GenerationComplete;
-            this.GenerateMaze(Settings.Default.MazeSize);
 
             this.glControl1.MakeCurrent();
 
             // trigger a resize event
             this.FormOnResize(sender, e);
+
+            this.CurrentLevel = 1;
+            this.LoadLevel();
         }
 
         /// <summary>
@@ -225,15 +221,10 @@ namespace BeardedWallhackCSharp
         /// <summary>
         /// The generate maze.
         /// </summary>
-        /// <param name="resolution">
-        /// The resolution.
-        /// </param>
         private void GenerateMaze(int resolution)
         {
-            int tsd = new[] { this.glControl1.Width, this.glControl1.Height }.Min() / resolution;
-
             this.regenerationThread = new Thread(this.RegenerationThreadDoWork) { Priority = ThreadPriority.Lowest };
-            this.regenerationThread.Start(tsd);
+            this.regenerationThread.Start(resolution);
         }
 
         /// <summary>
@@ -442,6 +433,12 @@ namespace BeardedWallhackCSharp
                 {
                     this.RealMaze = maze;
                 }
+
+                this.GenerationComplete(this, EventArgs.Empty);
+            }
+            else
+            {
+                this.GenerateMaze(this.CurrentLevel);
             }
         }
 

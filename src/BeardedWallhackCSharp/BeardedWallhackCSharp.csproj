@@ -88,6 +88,7 @@
     <EmbeddedResource Include="LevelData\Level2.dat" />
     <EmbeddedResource Include="LevelData\Level3.dat" />
     <EmbeddedResource Include="LevelData\Level4.dat" />
+    <EmbeddedResource Include="LevelData\Level5.dat" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
