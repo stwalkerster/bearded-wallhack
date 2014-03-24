@@ -200,8 +200,6 @@ namespace BeardedWallhackCSharp
         /// </param>
         private void GenerateMaze(int resolution)
         {
-            Thread.Sleep(100);
-
             int tsd = new[] { this.glControl1.Width, this.glControl1.Height }.Min() / resolution;
 
             this.regenerationThread = new Thread(this.RegenerationThreadDoWork) { Priority = ThreadPriority.Lowest };
