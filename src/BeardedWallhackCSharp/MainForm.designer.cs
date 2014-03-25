@@ -36,8 +36,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.runButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.glControl1 = new OpenTK.GLControl();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.glControl1 = new OpenTK.GLControl();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -65,10 +65,12 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(451, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.Padding = new System.Windows.Forms.Padding(5);
+            this.label1.Size = new System.Drawing.Size(442, 244);
             this.label1.TabIndex = 1;
             this.label1.Text = "label1";
             // 
@@ -121,7 +123,6 @@
             this.codeEditor.Styles.Max.FontName = "Verdana\0";
             this.codeEditor.Styles.Max.Size = 11F;
             this.codeEditor.TabIndex = 0;
-            this.codeEditor.Text = "print(\"Hello World\")";
             // 
             // toolStrip1
             // 
@@ -153,7 +154,17 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(86, 22);
             this.toolStripButton1.Text = "Copy Maze";
+            this.toolStripButton1.Visible = false;
             this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(81, 22);
+            this.toolStripButton2.Text = "Next Level";
+            this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2Click);
             // 
             // glControl1
             // 
@@ -168,15 +179,6 @@
             this.glControl1.VSync = false;
             this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.GlControl1Paint);
             // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(95, 22);
-            this.toolStripButton2.Text = "Open Level 3";
-            this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -190,7 +192,6 @@
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.FormOnKeyDown);
             this.Resize += new System.EventHandler(this.FormOnResize);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();

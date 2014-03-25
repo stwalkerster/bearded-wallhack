@@ -13,6 +13,8 @@ namespace BeardedWallhackCSharp
     /// </summary>
     internal class TurtleException : Exception
     {
+        public bool Success { get; set; }
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -21,9 +23,10 @@ namespace BeardedWallhackCSharp
         /// <param name="message">
         /// The message.
         /// </param>
-        public TurtleException(string message)
+        public TurtleException(string message, bool success = false)
             : base(message)
         {
+            this.Success = success;
         }
 
         #endregion

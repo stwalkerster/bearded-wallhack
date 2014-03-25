@@ -90,13 +90,14 @@ namespace BeardedWallhackCSharp
 
                 if (this.Block.IsExit)
                 {
-                    throw new TurtleException("NOM NOM NOM!!");
+                    throw new TurtleException("NOM NOM NOM!!", true);
                 }
 
                 this.fuel--;
             }
             else
             {
+                Console.WriteLine("Position: {0}, {1}", this.Block.PositionX, this.Block.PositionY);
                 throw new TurtleException("I hit a wall!");
             }
         }
