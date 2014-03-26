@@ -19,6 +19,7 @@ namespace BeardedWallhackCSharp
 
     using SharpLua;
     using SharpLua.LuaTypes;
+    using SharpLua.Parser;
 
     /// <summary>
     ///     The main form.
@@ -463,6 +464,7 @@ namespace BeardedWallhackCSharp
             }
 
             this.turtle.Block.CurrentState = Block.State.Visited;
+            this.turtle.EnergyLeft = Turtle.StartEnergy;
         }
 
         /// <summary>
@@ -490,6 +492,14 @@ namespace BeardedWallhackCSharp
                 {
                     this.toolStripButton2.Enabled = true;
                 }
+            }
+            catch (ParserException ex)
+            {
+                MessageBox.Show(string.Format("Whoops! Looks like I don't quite understand what you mean!\n\n{0}", ex.Message));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("Whoops! Something went wrong, but I'm not sure what.\n\n{0}", ex.Message));
             }
 
             this.glControl1.Invalidate();
